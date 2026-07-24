@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const loop = [
+  { index: "01", name: "Observe", note: "Read the world" },
+  { index: "02", name: "Decide", note: "Choose the next move" },
+  { index: "03", name: "Act", note: "Use a bounded tool" },
+  { index: "04", name: "Verify", note: "Check what changed" },
+];
+---
+
+<BaseLayout>
+  <div class="site-shell">
+    <div class="wip-banner" role="status">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span>Work in progress</span>
+      <span class="wip-note">The first lab is being built in public.</span>
+    </div>
+
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="Building Agent Systems, home">
+        <span class="wordmark-mark" aria-hidden="true">B/AS</span>
+        <span class="wordmark-name">Building Agent Systems</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#path">The path</a>
+        <a href="#first-lab">First lab</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">An interactive guide</p>
+        <h1 id="hero-title">
+          <span>Build the loop.</span>
+          <span class="accent-line">Understand the system.</span>
+        </h1>
+        <p class="hero-copy">
+          From first decision to production guardrails—learn agent systems by
+          tracing what they see, choose, change, and verify.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#first-lab">See what ships first</a>
+          <span class="availability">No account. No API key.</span>
+        </div>
+      </section>
+
+      <section class="loop-board" id="first-lab" aria-labelledby="loop-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Flagship lab · in progress</p>
+            <h2 id="loop-heading">The agent loop, made inspectable.</h2>
+          </div>
+          <span class="phase-stamp" aria-label="Phase 1">P1</span>
+        </div>
+
+        <ol class="loop-list">
+          {
+            loop.map((step) => (
+              <li>
+                <span class="step-index">{step.index}</span>
+                <span class="step-name">{step.name}</span>
+                <span class="step-note">{step.note}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="board-note">
+          Soon: step through one issue-triage run, inspect every decision, and
+          test the stop condition.
+        </p>
+      </section>
+
+      <section class="path-section" id="path" aria-labelledby="path-heading">
+        <div>
+          <p class="eyebrow">The path</p>
+          <h2 id="path-heading">One working system, widened carefully.</h2>
+        </div>
+        <div class="path-copy">
+          <p>
+            Start with a useful read-only loop. Add tools, skills, and MCP only
+            when each boundary earns its place.
+          </p>
+          <p>
+            Finish with approvals, evaluation, tracing, budgets, and a blueprint
+            you can take into your own work.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Building Agent Systems</span>
+      <span>First loop → production</span>
+    </footer>
+  </div>
+</BaseLayout>
