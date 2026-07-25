@@ -1,0 +1,70 @@
+---
+import AgentLoopSimulator from "../../components/AgentLoopSimulator";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/agent-loop.css";
+---
+
+<BaseLayout
+  title="Agent Loop Simulator · Building Agent Systems"
+  description="Step through an inspectable issue-triage loop from observation to a safe stop condition."
+>
+  <div class="loop-lab-shell">
+    <div class="lab-banner" role="status">
+      <span class="lab-status-dot" aria-hidden="true"></span>
+      <span>Work in progress</span>
+      <span>Flagship lab / trace 001</span>
+    </div>
+
+    <header class="lab-header">
+      <a class="lab-wordmark" href="/" aria-label="Building Agent Systems, home">
+        <span aria-hidden="true">B/AS</span>
+        <strong>Building Agent Systems</strong>
+      </a>
+      <div class="lab-index" aria-hidden="true">
+        <span>Observe</span>
+        <span>Decide</span>
+        <span>Act</span>
+        <span>Verify</span>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="lab-intro" aria-labelledby="lab-title">
+        <div>
+          <p class="lab-kicker">Lab 001 · Agent foundations</p>
+          <h1 id="lab-title">The loop is the system.</h1>
+        </div>
+        <div class="lab-intro-copy">
+          <p>
+            An agent is easier to reason about when every turn leaves evidence.
+            Follow one issue from input to a justified stop.
+          </p>
+          <ul aria-label="Lab properties">
+            <li>No API key</li>
+            <li>No side effects</li>
+            <li>Six inspectable stages</li>
+          </ul>
+        </div>
+      </section>
+
+      <AgentLoopSimulator client:load />
+
+      <section class="lab-takeaway" aria-labelledby="takeaway-title">
+        <p class="lab-kicker">What to notice</p>
+        <div>
+          <h2 id="takeaway-title">A loop earns its next action.</h2>
+          <p>
+            The useful unit is not the model response. It is the visible chain
+            from input, to bounded action, to checked evidence, to a deliberate
+            stop.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="lab-footer">
+      <a href="/">← Back to the guide</a>
+      <span>Frozen trace · device local</span>
+    </footer>
+  </div>
+</BaseLayout>

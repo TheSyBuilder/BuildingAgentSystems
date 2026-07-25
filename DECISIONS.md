@@ -6,3 +6,5 @@ Locked product and architecture decisions live in `SCHEDULE.md`. This file recor
 - **2026-07-24 — Use Tailwind CSS 4 through its Vite plugin.** This follows current official Astro guidance while preserving the locked Astro + Tailwind stack.
 - **2026-07-24 — Keep the first front door static and server-rendered.** React islands and Motion are installed for upcoming labs, but the shell earns no client JavaScript yet.
 - **2026-07-24 — Defer hosting setup and publication.** The schedule calls for a public Week 1 site, while the operating rules require explicit review before remote mutation.
+- **2026-07-25 — Model the flagship loop as six separately inspectable stages ending in a proposal-only stop.** Separating tool result, verification, and stop condition makes the evidence chain and approval boundary visible.
+- **2026-07-25 — Ship the complete trace as server-rendered HTML behind a native disclosure.** The interaction remains useful without client JavaScript and gives assistive technology a linear equivalent.
