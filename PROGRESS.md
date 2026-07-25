@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 1 — Spine and flagship lab
 
-**Current schedule week:** Week 0 (`floor((2026-07-24 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 1 (`floor((2026-07-25 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 1 site skeleton — DONE
+**Last completed unit:** Agent loop simulator — DONE
 
-**Next unit:** Agent loop simulator — implement the standalone step-through observation → decision → tool call → result → verification flow using the frozen issue-triage trace
+**Next unit:** Flagship front-door integration — explicitly revise the frozen homepage CTA and first-lab placeholder so they link to the completed `/labs/agent-loop/` experience
 
 ## State note
 
@@ -137,3 +137,135 @@ CLS: 0
 **Single next unit**
 
 Agent loop simulator — implement the standalone step-through observation → decision → tool call → result → verification flow using the frozen issue-triage trace, including keyboard controls, reduced-motion behavior, and a non-interactive textual equivalent.
+
+### 2026-07-25 — Agent loop simulator
+
+**Phase and unit completed**
+
+- Phase 1 — Spine and flagship lab
+- Unit: standalone agent loop simulator at `/labs/agent-loop/`
+- Shipped one frozen issue-triage trace with separate observation, decision, tool call, result, verification, and stop stages; read-only evidence; a visible approval boundary; arrow-key tab traversal; previous/next controls; a server-rendered text equivalent; responsive layouts; and reduced-motion behavior
+- Schedule week: Week 1
+
+**Verification output**
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build
+18:06:55 [content] Syncing content
+18:06:55 [content] Synced content
+18:06:55 [types] Generated 163ms
+18:06:55 [build] output: "static"
+18:06:55 [build] mode: "static"
+18:06:55 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:06:55 [build] Collecting build info...
+18:06:55 [build] ✓ Completed in 175ms.
+18:06:55 [build] Building static entrypoints...
+18:06:55 [vite] ✓ built in 94ms
+18:06:55 [vite] ✓ built in 46ms
+18:06:55 [build] Rearranging server assets...
+
+ generating static routes
+18:06:55   ├─ /404.html (+4ms)
+18:06:55   ├─ /labs/agent-loop/index.html (+46ms)
+18:06:55   ├─ /index.html (+1ms)
+18:06:55 ✓ Completed in 63ms.
+
+18:06:55 [build] ✓ Completed in 214ms.
+18:06:55 [build] 3 page(s) built in 391ms
+18:06:55 [build] Complete!
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:06:56 [content] Syncing content
+18:06:56 [content] Synced content
+18:06:56 [types] Generated 164ms
+18:06:56 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (13 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+`pnpm test:smoke`
+
+```text
+Running 3 tests using 3 workers
+[1/3] tests/smoke.spec.ts:44:1 › small-screen layout keeps the primary path available
+[2/3] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[3/3] tests/smoke.spec.ts:24:1 › reduced motion removes the status loop
+  3 passed (1.3s)
+```
+
+`pnpm exec playwright test tests/agent-loop.spec.ts`
+
+```text
+Running 4 tests using 4 workers
+[1/4] tests/agent-loop.spec.ts:42:1 › agent loop has a complete textual equivalent
+[2/4] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[3/4] tests/agent-loop.spec.ts:85:1 › agent loop remains usable on a small screen
+[4/4] tests/agent-loop.spec.ts:51:1 › agent loop honors reduced motion
+  4 passed (2.2s)
+```
+
+The keyboard-only test traverses the stage tabs with Arrow Right, End, and Home, then activates the next-stage control with Enter. The reduced-motion test emulates `prefers-reduced-motion: reduce`, asserts the status animation is `none`, and confirms the changing panel has no transform or transition duration.
+
+`pnpm test:a11y`
+
+```text
+Running 4 tests using 4 workers
+[1/4] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[2/4] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[3/4] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[4/4] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+  4 passed (1.6s)
+```
+
+The full-page renders at `test-results/agent-loop-reduced-motion.png` and `test-results/agent-loop-mobile.png` were manually inspected. The reduced-motion render retains the complete content hierarchy with a static status marker and instant stage change; the 360 px render keeps all controls readable, preserves the evidence chain, and has no horizontal overflow.
+
+Lighthouse against `http://127.0.0.1:4321/labs/agent-loop/`
+
+```text
+performance: 100
+accessibility: 100
+FCP: 1.2 s
+LCP: 1.7 s
+CLS: 0
+```
+
+Route-specific link crawl:
+
+```text
+→ crawling http://127.0.0.1:4321/labs/agent-loop/
+[200] http://127.0.0.1:4321/labs/agent-loop/
+[200] http://127.0.0.1:4321/_astro/BaseLayout.DHDLG_07.css
+[200] http://127.0.0.1:4321/_astro/agent-loop.SotwMiDj.css
+[200] http://127.0.0.1:4321/
+✓ Successfully scanned 4 links in 0.021 seconds.
+```
+
+`docs/sources.md` records the primary source for the loop, environmental feedback, human checkpoint, and stopping-condition claims with a `verified: 2026-07-25` stamp.
+
+```text
+200 https://www.anthropic.com/engineering/building-effective-agents
+```
+
+**Decisions made this run**
+
+- Model the flagship trace as six distinct stages, keeping tool result, verification, and stop separate so the evidence chain is inspectable.
+- End at a proposal-only state; applying labels remains a consequential action behind an approval boundary.
+- Ship the entire trace as server-rendered HTML behind a native disclosure so the lesson works without client JavaScript.
+
+**Remaining uncertainty**
+
+- The completed standalone route is not linked from the frozen homepage because front-door integration is a separate unit.
+- The static host and public preview URL remain unconfigured; external deployment still requires explicit review.
+- The art direction is demonstrated by the shell and flagship lab but has not yet been marked as its separate locked deliverable.
+
+**Commit hash and push status**
+
+- Unit commit: `f8662ec` (`feat(lab): ship agent loop simulator`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`bc45924..f8662ec`)
+
+**Single next unit**
+
+Flagship front-door integration — explicitly revise the frozen homepage CTA and first-lab placeholder so they link to the completed `/labs/agent-loop/` experience, then verify the changed homepage and cross-route path.
