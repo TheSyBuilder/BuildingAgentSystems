@@ -4,9 +4,9 @@
 
 **Current schedule week:** Week 1 (`floor((2026-07-25 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Agent loop simulator — DONE
+**Last completed unit:** Flagship front-door integration — DONE
 
-**Next unit:** Flagship front-door integration — explicitly revise the frozen homepage CTA and first-lab placeholder so they link to the completed `/labs/agent-loop/` experience
+**Next unit:** Art-direction lock — codify the demonstrated typography, color, illustration, spacing, navigation, and motion vocabulary in `docs/art-direction.md`, then verify both shipped routes against it without restyling DONE work
 
 ## State note
 
@@ -269,3 +269,126 @@ Route-specific link crawl:
 **Single next unit**
 
 Flagship front-door integration — explicitly revise the frozen homepage CTA and first-lab placeholder so they link to the completed `/labs/agent-loop/` experience, then verify the changed homepage and cross-route path.
+
+### 2026-07-26 — Flagship front-door integration
+
+**Phase and unit completed**
+
+- Phase 1 — Spine and flagship lab
+- Unit: flagship front-door integration from `/` to `/labs/agent-loop/`
+- Replaced the stale hero placeholder with a direct lab CTA, added a direct CTA to the lab preview, linked the primary-navigation entry, and updated the WIP copy to state that the flagship lab is live
+- Added keyboard-only cross-route smoke coverage and a 360 px visual evidence capture
+- Schedule week: Week 1
+
+**Verification output**
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build
+18:02:22 [content] Syncing content
+18:02:22 [content] Synced content
+18:02:22 [types] Generated 172ms
+18:02:22 [build] output: "static"
+18:02:22 [build] mode: "static"
+18:02:22 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:02:22 [build] Collecting build info...
+18:02:22 [build] ✓ Completed in 183ms.
+18:02:22 [build] Building static entrypoints...
+18:02:22 [vite] ✓ built in 108ms
+18:02:22 [vite] ✓ built in 54ms
+18:02:22 [build] Rearranging server assets...
+
+ generating static routes
+18:02:22   ├─ /404.html (+5ms)
+18:02:22   ├─ /labs/agent-loop/index.html (+47ms)
+18:02:22   ├─ /index.html (+1ms)
+18:02:22 ✓ Completed in 65ms.
+
+18:02:22 [build] ✓ Completed in 238ms.
+18:02:22 [build] 3 page(s) built in 423ms
+18:02:22 [build] Complete!
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:02:23 [content] Syncing content
+18:02:23 [content] Synced content
+18:02:23 [types] Generated 170ms
+18:02:23 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (13 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+`pnpm test:smoke`
+
+```text
+Running 3 tests using 3 workers
+[1/3] tests/smoke.spec.ts:49:1 › small-screen layout keeps the primary path available
+[2/3] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[3/3] tests/smoke.spec.ts:29:1 › reduced motion removes the status loop
+  3 passed (1.4s)
+```
+
+The keyboard-only test focuses and activates the hero CTA, confirms navigation to `/labs/agent-loop/`, and verifies the simulator heading. It also asserts that both the hero and preview CTAs point to the completed route.
+
+`pnpm test:a11y`
+
+```text
+Running 4 tests using 4 workers
+[1/4] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[2/4] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[3/4] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[4/4] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+  4 passed (1.7s)
+```
+
+Reduced-motion and mobile behavior were manually inspected in the generated full-page renders at `test-results/reduced-motion.png` and `test-results/front-door-mobile.png`. The reduced-motion page retains the complete hierarchy with a static status marker; computed animation duration is no more than `0.00001s` with one iteration. At 360 px, both CTAs remain legible, the preview stacks into one column, and the page has no horizontal overflow.
+
+Lighthouse against `http://127.0.0.1:4321/`
+
+```text
+performance: 100
+accessibility: 100
+FCP: 0.8 s
+LCP: 0.9 s
+CLS: 0
+```
+
+`pnpm test:links`
+
+```text
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/labs/agent-loop/
+[200] dist/_astro/BaseLayout.Vm1UIJon.css
+[200] dist/_astro/agent-loop.SotwMiDj.css
+
+  [200] dist
+  [200] dist/labs/agent-loop/
+  [200] dist/_astro/BaseLayout.Vm1UIJon.css
+  [200] dist/_astro/agent-loop.SotwMiDj.css
+dist
+dist/labs/agent-loop/
+✓ Successfully scanned 4 links in 0.022 seconds.
+```
+
+This integration adds no technical claims, so `docs/sources.md` requires no new entry.
+
+**Decisions made this run**
+
+- None. The unit implements the next task already fixed by `PROGRESS.md`.
+
+**Remaining uncertainty**
+
+- The static host and public preview URL remain unconfigured because external deployment requires explicit approval.
+- The demonstrated art direction is not yet captured as a locked deliverable.
+
+**Commit hash and push status**
+
+- Unit commit: `51651a2` (`feat(site): link flagship lab from home`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`b048f5d..51651a2`)
+
+**Single next unit**
+
+Art-direction lock — codify the demonstrated typography, color, illustration, spacing, navigation, and motion vocabulary in `docs/art-direction.md`, then verify both shipped routes against it without restyling DONE work.
