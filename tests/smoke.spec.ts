@@ -13,11 +13,18 @@ test("front door renders and works from the keyboard", async ({ page }) => {
   await page.keyboard.press("Enter");
   await expect(page.locator("#main-content")).toBeFocused();
 
-  await page.getByRole("link", { name: "See what ships first" }).focus();
+  const primaryLabLink = page.getByRole("link", {
+    name: "Open the agent loop",
+  });
+  const previewLabLink = page.getByRole("link", { name: "Enter the lab" });
+  await expect(primaryLabLink).toHaveAttribute("href", "/labs/agent-loop/");
+  await expect(previewLabLink).toHaveAttribute("href", "/labs/agent-loop/");
+
+  await primaryLabLink.focus();
   await page.keyboard.press("Enter");
-  await expect(page).toHaveURL(/#first-lab$/);
+  await expect(page).toHaveURL(/\/labs\/agent-loop\/$/);
   await expect(
-    page.getByRole("heading", { name: "The agent loop, made inspectable." }),
+    page.getByRole("heading", { level: 1, name: "The loop is the system." }),
   ).toBeVisible();
 });
 
@@ -47,4 +54,8 @@ test("small-screen layout keeps the primary path available", async ({ page }) =>
 
   await expect(page.getByRole("link", { name: "First lab" })).toBeVisible();
   await expect(page.locator("body")).toHaveJSProperty("scrollWidth", 360);
+  await page.screenshot({
+    path: "test-results/front-door-mobile.png",
+    fullPage: true,
+  });
 });

@@ -14,7 +14,9 @@ const loop = [
     <div class="wip-banner" role="status">
       <span class="status-dot" aria-hidden="true"></span>
       <span>Work in progress</span>
-      <span class="wip-note">The first lab is being built in public.</span>
+      <span class="wip-note">
+        The flagship lab is live. The wider guide is underway.
+      </span>
     </div>
 
     <header class="site-header">
@@ -24,7 +26,7 @@ const loop = [
       </a>
       <nav aria-label="Primary navigation">
         <a href="#path">The path</a>
-        <a href="#first-lab">First lab</a>
+        <a href="/labs/agent-loop/">First lab</a>
       </nav>
     </header>
 
@@ -40,7 +42,7 @@ const loop = [
           tracing what they see, choose, change, and verify.
         </p>
         <div class="hero-actions">
-          <a class="primary-link" href="#first-lab">See what ships first</a>
+          <a class="primary-link" href="/labs/agent-loop/">Open the agent loop</a>
           <span class="availability">No account. No API key.</span>
         </div>
       </section>
@@ -48,7 +50,7 @@ const loop = [
       <section class="loop-board" id="first-lab" aria-labelledby="loop-heading">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Flagship lab · in progress</p>
+            <p class="eyebrow">Flagship lab · now live</p>
             <h2 id="loop-heading">The agent loop, made inspectable.</h2>
           </div>
           <span class="phase-stamp" aria-label="Phase 1">P1</span>
@@ -66,10 +68,15 @@ const loop = [
           }
         </ol>
 
-        <p class="board-note">
-          Soon: step through one issue-triage run, inspect every decision, and
-          test the stop condition.
-        </p>
+        <div class="board-footer">
+          <p class="board-note">
+            Step through one issue-triage run, inspect every decision, and test
+            the stop condition.
+          </p>
+          <a class="board-link" href="/labs/agent-loop/">
+            Enter the lab <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </section>
 
       <section class="path-section" id="path" aria-labelledby="path-heading">

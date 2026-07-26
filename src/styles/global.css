@@ -349,12 +349,46 @@ nav a:hover {
   color: #aaa79f;
 }
 
+.board-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
 .board-note {
   width: min(100%, 45rem);
-  margin: 1.5rem 0 0 auto;
+  margin: 0;
   font-family: var(--font-mono);
   font-size: clamp(0.75rem, 1.3vw, 0.9rem);
   line-height: 1.5;
+}
+
+.board-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3.25rem;
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--paper);
+  background: var(--acid);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.board-link span {
+  font-size: 1.1rem;
+  transition: transform 120ms ease;
+}
+
+.board-link:hover span {
+  transform: translateX(0.25rem);
 }
 
 .path-section {
@@ -458,6 +492,12 @@ footer {
   .hero-actions {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .board-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
   .loop-list {
