@@ -1,8 +1,8 @@
 # Art direction
 
-**Status:** locked  
-**Version:** 1.0  
-**Locked:** 2026-07-27  
+**Status:** locked
+**Version:** 1.0
+**Locked:** 2026-07-27
 **Applies to:** the guide shell, content modules, light interactions, signature labs, and exported visuals
 
 ## Direction
