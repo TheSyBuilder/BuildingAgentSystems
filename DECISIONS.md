@@ -8,3 +8,4 @@ Locked product and architecture decisions live in `SCHEDULE.md`. This file recor
 - **2026-07-24 — Defer hosting setup and publication.** The schedule calls for a public Week 1 site, while the operating rules require explicit review before remote mutation.
 - **2026-07-25 — Model the flagship loop as six separately inspectable stages ending in a proposal-only stop.** Separating tool result, verification, and stop condition makes the evidence chain and approval boundary visible.
 - **2026-07-25 — Ship the complete trace as server-rendered HTML behind a native disclosure.** The interaction remains useful without client JavaScript and gives assistive technology a linear equivalent.
+- **2026-07-27 — Lock the demonstrated editorial-workbench art direction as the v1 visual contract.** The guide shell and flagship lab already share a distinctive, accessible grammar, so future modules should extend it instead of reopening visual exploration.
