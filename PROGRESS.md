@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 1 — Spine and flagship lab
 
-**Current schedule week:** Week 1 (`floor((2026-07-25 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 1 (`floor((2026-07-27 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Flagship front-door integration — DONE
+**Last completed unit:** Art-direction lock — DONE
 
-**Next unit:** Art-direction lock — codify the demonstrated typography, color, illustration, spacing, navigation, and motion vocabulary in `docs/art-direction.md`, then verify both shipped routes against it without restyling DONE work
+**Next unit:** Phase 1 curriculum outline — create one page mapping each module to one reader outcome, its signature or light interaction, and a concrete checkpoint, without drafting module prose
 
 ## State note
 
@@ -392,3 +392,137 @@ This integration adds no technical claims, so `docs/sources.md` requires no new 
 **Single next unit**
 
 Art-direction lock — codify the demonstrated typography, color, illustration, spacing, navigation, and motion vocabulary in `docs/art-direction.md`, then verify both shipped routes against it without restyling DONE work.
+
+### 2026-07-27 — Art-direction lock
+
+**Phase and unit completed**
+
+- Phase 1 — Spine and flagship lab
+- Unit: locked the demonstrated editorial-workbench art direction in `docs/art-direction.md`
+- Codified typography, core and contextual color roles, illustration language, spacing and responsive rules, navigation, controls, motion, page grammar, content voice, accessibility gates, and extension rules
+- Added a route-level Playwright audit covering the guide front door and flagship lab without modifying either DONE route
+- Schedule week: Week 1
+
+**Verification output**
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build
+18:07:04 [content] Syncing content
+18:07:04 [content] Synced content
+18:07:04 [types] Generated 214ms
+18:07:04 [build] output: "static"
+18:07:04 [build] mode: "static"
+18:07:04 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:07:04 [build] Collecting build info...
+18:07:04 [build] ✓ Completed in 226ms.
+18:07:04 [build] Building static entrypoints...
+18:07:04 [vite] ✓ built in 86ms
+18:07:04 [vite] ✓ built in 49ms
+18:07:04 [build] Rearranging server assets...
+
+ generating static routes
+18:07:04   ├─ /404.html (+5ms)
+18:07:04   ├─ /labs/agent-loop/index.html (+63ms)
+18:07:04   ├─ /index.html (+1ms)
+18:07:04 ✓ Completed in 81ms.
+
+18:07:04 [build] ✓ Completed in 231ms.
+18:07:04 [build] 3 page(s) built in 458ms
+18:07:04 [build] Complete!
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:07:05 [content] Syncing content
+18:07:05 [content] Synced content
+18:07:05 [types] Generated 188ms
+18:07:05 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (14 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression, including smoke, keyboard-only operation, art-direction audit, reduced motion, mobile overflow, and axe:
+
+```text
+Running 14 tests using 7 workers
+[1/14] tests/agent-loop.spec.ts:51:1 › agent loop honors reduced motion
+[2/14] tests/agent-loop.spec.ts:42:1 › agent loop has a complete textual equivalent
+[3/14] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[4/14] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[5/14] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[6/14] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[7/14] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[8/14] tests/agent-loop.spec.ts:85:1 › agent loop remains usable on a small screen
+[9/14] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/14] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/14] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/14] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/14] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/14] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+  14 passed (2.5s)
+```
+
+The reduced-motion renders at `test-results/reduced-motion.png` and `test-results/agent-loop-reduced-motion.png` were manually inspected. Both retain the complete hierarchy and visible state with static status markers and immediate panel changes. The desktop audit captures at `test-results/art-direction-home.png` and `test-results/art-direction-agent-loop.png` conform to the locked composition, type, color, rule, control, and evidence grammar. The 360 px captures at `test-results/front-door-mobile.png` and `test-results/agent-loop-mobile.png` recompose cleanly with no horizontal overflow.
+
+Lighthouse against both audited routes:
+
+```text
+test-results/lighthouse-home.json
+{
+  "performance": 100,
+  "accessibility": 100,
+  "FCP": "0.8 s",
+  "LCP": "0.9 s",
+  "CLS": "0"
+}
+test-results/lighthouse-agent-loop.json
+{
+  "performance": 100,
+  "accessibility": 100,
+  "FCP": "0.9 s",
+  "LCP": "0.9 s",
+  "CLS": "0"
+}
+```
+
+`pnpm test:links`
+
+```text
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/labs/agent-loop/
+[200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+[200] dist/_astro/agent-loop.SotwMiDj.css
+
+  [200] dist
+dist
+  [200] dist/labs/agent-loop/
+  [200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+dist/labs/agent-loop/
+  [200] dist/_astro/agent-loop.SotwMiDj.css
+✓ Successfully scanned 4 links in 0.023 seconds.
+```
+
+`docs/art-direction.md` contains no external or Markdown links. It records internal design decisions and implemented values rather than new technical claims, so `docs/sources.md` requires no update.
+
+**Decisions made this run**
+
+- Locked the demonstrated editorial-workbench direction as the v1 visual contract: paper and ink construction, hard rules, condensed display type, monospace instrumentation, sparse semantic signal color, CSS-native geometry, and short state-driven motion.
+- Added a contract-level computed-style audit instead of screenshot snapshots so future work can preserve the vocabulary while still composing new pages.
+
+**Remaining uncertainty**
+
+- The static host and public preview URL remain unconfigured because external deployment requires explicit approval.
+- The README front door cannot yet satisfy its required live URL above the fold. The curriculum outline is the next unblocked Phase 1 unit.
+
+**Commit hash and push status**
+
+- Unit commit: `cb4a0ed` (`docs(design): lock art direction`)
+- Metadata-cleanup commit: `3aaec42` (`docs(design): clean art direction metadata`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`6e7f1f7..3aaec42`)
+
+**Single next unit**
+
+Phase 1 curriculum outline — create `docs/curriculum-outline.md` as a one-page map of module → reader outcome → signature or light interaction → concrete checkpoint, without drafting module prose.
