@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 1 — Spine and flagship lab
 
-**Current schedule week:** Week 1 (`floor((2026-07-27 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 1 (`floor((2026-07-28 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Art-direction lock — DONE
+**Last completed unit:** Phase 1 curriculum outline — DONE
 
-**Next unit:** Phase 1 curriculum outline — create one page mapping each module to one reader outcome, its signature or light interaction, and a concrete checkpoint, without drafting module prose
+**Next unit:** Phase 1 README demo asset — capture and optimize a concise flagship-simulator GIF from the frozen trace, with a legible first frame and a repeatable capture command; do not edit the README yet
 
 ## State note
 
@@ -526,3 +526,119 @@ dist/labs/agent-loop/
 **Single next unit**
 
 Phase 1 curriculum outline — create `docs/curriculum-outline.md` as a one-page map of module → reader outcome → signature or light interaction → concrete checkpoint, without drafting module prose.
+
+### 2026-07-28 — Curriculum outline
+
+**Phase and unit completed**
+
+- Phase 1 — Spine and flagship lab
+- Unit: v1 curriculum outline in `docs/curriculum-outline.md`
+- Mapped all 11 scheduled modules to one reader outcome, their named signature or light interaction, and one observable checkpoint
+- Kept the frozen issue-triage agent as the continuous build thread and summarized the artifacts the reader carries forward
+- Schedule week: Week 1
+
+**Verification output**
+
+Curriculum structure audit:
+
+```text
+curriculum audit: modules=11 interactions=11 checkpoints=11
+```
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build
+18:02:16 [content] Syncing content
+18:02:16 [content] Synced content
+18:02:16 [types] Generated 177ms
+18:02:16 [build] output: "static"
+18:02:16 [build] mode: "static"
+18:02:16 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:02:16 [build] Collecting build info...
+18:02:16 [build] ✓ Completed in 195ms.
+18:02:16 [build] Building static entrypoints...
+18:02:16 [vite] ✓ built in 119ms
+18:02:16 [vite] ✓ built in 53ms
+18:02:16 [build] Rearranging server assets...
+
+ generating static routes
+18:02:16   ├─ /404.html (+6ms)
+18:02:16   ├─ /labs/agent-loop/index.html (+49ms)
+18:02:16   ├─ /index.html (+1ms)
+18:02:16 ✓ Completed in 69ms.
+
+18:02:16 [build] ✓ Completed in 252ms.
+18:02:16 [build] 3 page(s) built in 449ms
+18:02:16 [build] Complete!
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:02:17 [content] Syncing content
+18:02:17 [content] Synced content
+18:02:17 [types] Generated 173ms
+18:02:17 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (14 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression:
+
+```text
+Running 14 tests using 7 workers
+[1/14] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[2/14] tests/agent-loop.spec.ts:51:1 › agent loop honors reduced motion
+[3/14] tests/agent-loop.spec.ts:42:1 › agent loop has a complete textual equivalent
+[4/14] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[5/14] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[6/14] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[7/14] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[8/14] tests/agent-loop.spec.ts:85:1 › agent loop remains usable on a small screen
+[9/14] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/14] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/14] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/14] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/14] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/14] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+  14 passed (2.8s)
+```
+
+`pnpm test:links` and changed-document link audit:
+
+```text
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+[200] dist/labs/agent-loop/
+[200] dist/_astro/agent-loop.SotwMiDj.css
+
+  [200] dist
+  [200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+  [200] dist/labs/agent-loop/
+  [200] dist/_astro/agent-loop.SotwMiDj.css
+dist
+dist/labs/agent-loop/
+✓ Successfully scanned 4 links in 0.026 seconds.
+changed-document external links: 0
+```
+
+This unit changes no rendered page or interaction, so there is no changed-page Lighthouse target or new animation to inspect. The full regression still exercises axe, keyboard-only operation, reduced motion, and mobile behavior on both shipped routes. The outline contains no external links or new technical claims, so `docs/sources.md` requires no update.
+
+**Decisions made this run**
+
+- None. The outline directly maps the locked information architecture, named interactions, reader promises, and reference-agent path already fixed by `SCHEDULE.md`.
+
+**Remaining uncertainty**
+
+- The static host and public preview URL remain unconfigured because external deployment requires explicit approval.
+- The README cannot yet satisfy its required live URL above the fold. Its demo asset can be completed locally as the next unblocked unit.
+
+**Commit hash and push status**
+
+- Unit commit: `b07cf93` (`docs(curriculum): map v1 learning journey`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`1fa74e5..b07cf93`)
+
+**Single next unit**
+
+Phase 1 README demo asset — capture and optimize a concise GIF of the flagship simulator stepping through the frozen trace, preserve a legible first frame, and add a repeatable local capture command without editing the README yet.
