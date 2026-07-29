@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 1 — Spine and flagship lab
 
-**Current schedule week:** Week 1 (`floor((2026-07-28 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 1 (`floor((2026-07-29 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 1 curriculum outline — DONE
+**Last completed unit:** Phase 1 README demo asset — DONE
 
-**Next unit:** Phase 1 README demo asset — capture and optimize a concise flagship-simulator GIF from the frozen trace, with a legible first frame and a repeatable capture command; do not edit the README yet
+**Next unit:** Phase 1 first public deploy — configure the approved static host with preview deploys and the existing WIP banner, then record the live URL; this external hosting mutation requires explicit approval before work begins
 
 ## State note
 
@@ -642,3 +642,176 @@ This unit changes no rendered page or interaction, so there is no changed-page L
 **Single next unit**
 
 Phase 1 README demo asset — capture and optimize a concise GIF of the flagship simulator stepping through the frozen trace, preserve a legible first frame, and add a repeatable local capture command without editing the README yet.
+
+### 2026-07-29 — README demo asset
+
+**Phase and unit completed**
+
+- Phase 1 — Spine and flagship lab
+- Unit: optimized README demo asset at `public/assets/agent-loop-demo.gif`
+- Added a repeatable `pnpm capture:demo` command that builds the static site, launches a local preview, captures all six frozen trace stages through Playwright, and encodes them through pinned Sharp tooling
+- The GIF is 960 × 611, six frames, 117 KiB, with deliberate opening and approval-boundary holds and a 3 MiB generation ceiling
+- Schedule week: Week 1
+
+**Verification output**
+
+`pnpm capture:demo`
+
+```text
+$ pnpm build && node --experimental-strip-types scripts/capture-agent-loop-demo.ts
+$ ASTRO_TELEMETRY_DISABLED=1 astro build
+18:10:01 [content] Syncing content
+18:10:01 [content] Synced content
+18:10:01 [types] Generated 165ms
+18:10:01 [build] output: "static"
+18:10:01 [build] mode: "static"
+18:10:01 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:10:01 [build] Collecting build info...
+18:10:01 [build] ✓ Completed in 174ms.
+18:10:01 [build] Building static entrypoints...
+18:10:01 [vite] ✓ built in 78ms
+18:10:01 [vite] ✓ built in 43ms
+18:10:01 [build] Rearranging server assets...
+
+ generating static routes
+18:10:01   ├─ /404.html (+5ms)
+18:10:01   ├─ /labs/agent-loop/index.html (+47ms)
+18:10:01   ├─ /index.html (+1ms)
+18:10:01 ✓ Completed in 64ms.
+
+18:10:01 [build] ✓ Completed in 196ms.
+18:10:01 [build] 3 page(s) built in 372ms
+18:10:01 [build] Complete!
+captured: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/public/assets/agent-loop-demo.gif
+gif: 960x611 · 6 frames · 0.11 MiB · loops
+delays: 1800, 900, 900, 900, 900, 2000 ms
+```
+
+The capture command was run twice after implementation. Both runs produced the same SHA-256:
+
+```text
+29d1512577c8b712be15b2ea8bc6ab93272c6f72375599dd3a8941dcf228b98e  public/assets/agent-loop-demo.gif
+29d1512577c8b712be15b2ea8bc6ab93272c6f72375599dd3a8941dcf228b98e  public/assets/agent-loop-demo.gif
+```
+
+Capture script and asset contract audit:
+
+```text
+capture contract: TypeScript clean
+{
+  "width": 960,
+  "pageHeight": 611,
+  "pages": 6,
+  "loop": 0,
+  "delay": [
+    1800,
+    900,
+    900,
+    900,
+    900,
+    2000
+  ]
+}
+```
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build
+18:10:27 [content] Syncing content
+18:10:27 [content] Synced content
+18:10:27 [types] Generated 166ms
+18:10:27 [build] output: "static"
+18:10:27 [build] mode: "static"
+18:10:27 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:10:27 [build] Collecting build info...
+18:10:27 [build] ✓ Completed in 176ms.
+18:10:27 [build] Building static entrypoints...
+18:10:27 [vite] ✓ built in 77ms
+18:10:27 [vite] ✓ built in 44ms
+18:10:27 [build] Rearranging server assets...
+
+ generating static routes
+18:10:27   ├─ /404.html (+5ms)
+18:10:27   ├─ /labs/agent-loop/index.html (+49ms)
+18:10:27   ├─ /index.html (+1ms)
+18:10:27 ✓ Completed in 66ms.
+
+18:10:27 [build] ✓ Completed in 198ms.
+18:10:27 [build] 3 page(s) built in 375ms
+18:10:27 [build] Complete!
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:10:28 [content] Syncing content
+18:10:28 [content] Synced content
+18:10:28 [types] Generated 172ms
+18:10:28 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (15 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression, including keyboard-only operation, axe, reduced motion, mobile overflow, and the art-direction contract:
+
+```text
+Running 14 tests using 7 workers
+[1/14] tests/agent-loop.spec.ts:42:1 › agent loop has a complete textual equivalent
+[2/14] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[3/14] tests/agent-loop.spec.ts:51:1 › agent loop honors reduced motion
+[4/14] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[5/14] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[6/14] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[7/14] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[8/14] tests/agent-loop.spec.ts:85:1 › agent loop remains usable on a small screen
+[9/14] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/14] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/14] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/14] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/14] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/14] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+  14 passed (2.4s)
+```
+
+`pnpm test:links`
+
+```text
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+[200] dist/labs/agent-loop/
+[200] dist/_astro/agent-loop.SotwMiDj.css
+
+dist
+dist/labs/agent-loop/
+  [200] dist
+  [200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+  [200] dist/labs/agent-loop/
+  [200] dist/_astro/agent-loop.SotwMiDj.css
+✓ Successfully scanned 4 links in 0.023 seconds.
+changed-content external links: 0
+```
+
+The first frame, approval-boundary frame, and six-frame contact sheet were manually inspected at original resolution. All stage labels, issue evidence, controls, and the final approval boundary remain legible; every frame uses the same crop with no layout jump.
+
+The capture intentionally loads the shipped lab under `prefers-reduced-motion: reduce` and disables incidental CSS animation before recording deterministic state changes. No page or interaction was changed or newly animated in this unit, so changed-page Lighthouse and a new axe target are not applicable; the full route regression above still exercises axe, keyboard, reduced-motion, and mobile behavior on both shipped pages.
+
+The asset and capture script add no user-facing technical claim, so `docs/sources.md` requires no update.
+
+**Decisions made this run**
+
+- Capture the README demo as six deterministic state holds with a 3 MiB ceiling, using reduced-motion rendering and a 64-color palette budget so the result remains legible, compact, and byte-for-byte reproducible.
+
+**Remaining uncertainty**
+
+- The static host and public preview URL remain unconfigured. External deployment requires explicit approval.
+- The README still needs a separate integration unit after the live URL exists; this run intentionally did not edit it.
+
+**Commit hash and push status**
+
+- Unit commit: `8e4d413` (`feat(demo): add simulator gif capture`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`ac4cc29..8e4d413`)
+
+**Single next unit**
+
+Phase 1 first public deploy — configure the approved static host with preview deploys and the existing WIP banner, then record the live URL. This external hosting mutation requires explicit approval before work begins.
