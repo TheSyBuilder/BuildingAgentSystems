@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "capture:demo": "pnpm build && node --experimental-strip-types scripts/capture-agent-loop-demo.ts",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "typecheck": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "test:smoke": "playwright test tests/smoke.spec.ts",
@@ -30,6 +31,7 @@
     "@types/react-dom": "19.2.3",
     "lighthouse": "13.4.1",
     "linkinator": "8.0.2",
+    "sharp": "0.35.3",
     "typescript": "6.0.3"
   },
   "packageManager": "pnpm@11.9.0"
