@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts",
     "capture:demo": "pnpm build && node --experimental-strip-types scripts/capture-agent-loop-demo.ts",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "typecheck": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:a11y": "playwright test tests/accessibility.spec.ts",
+    "test:hosting": "node --experimental-strip-types scripts/verify-sites-build.ts",
     "test:links": "linkinator dist --recurse"
   },
   "dependencies": {
