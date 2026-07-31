@@ -5,9 +5,16 @@ import { pathToFileURL } from "node:url";
 
 const projectRoot = resolve(import.meta.dirname, "..");
 const workerPath = resolve(projectRoot, "dist", "server", "index.js");
+const clientPath = resolve(projectRoot, "dist", "client");
 const hostingPath = resolve(projectRoot, ".openai", "hosting.json");
 
 await access(workerPath);
+await Promise.all([
+  access(resolve(clientPath, "index.html")),
+  access(resolve(clientPath, "404.html")),
+  access(resolve(clientPath, "labs", "agent-loop", "index.html")),
+  access(resolve(clientPath, "assets", "agent-loop-demo.gif")),
+]);
 const hosting = JSON.parse(await readFile(hostingPath, "utf8")) as {
   project_id?: unknown;
 };
@@ -50,5 +57,5 @@ for (const pathname of ["/", "/labs/agent-loop/"]) {
 }
 
 console.log(
-  "Sites build contract: hosting metadata present; / and /labs/agent-loop/ delegate to ASSETS",
+  "Sites build contract: client assets and hosting metadata present; / and /labs/agent-loop/ delegate to ASSETS",
 );
