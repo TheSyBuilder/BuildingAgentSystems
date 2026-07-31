@@ -12,6 +12,7 @@
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:a11y": "playwright test tests/accessibility.spec.ts",
     "test:hosting": "node --experimental-strip-types scripts/verify-sites-build.ts",
+    "test:live": "playwright test --config playwright.live.config.ts",
     "test:links": "linkinator dist --recurse"
   },
   "dependencies": {

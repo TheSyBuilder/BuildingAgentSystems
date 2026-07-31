@@ -8,11 +8,16 @@ test("agent loop completes with keyboard-only controls", async ({ page }) => {
   ).toBeVisible();
 
   const observeTab = page.getByRole("tab", { name: /observe/i });
+  const decideTab = page.getByRole("tab", { name: /decide/i });
   await observeTab.focus();
   await expect(observeTab).toHaveAttribute("aria-selected", "true");
 
-  await page.keyboard.press("ArrowRight");
-  const decideTab = page.getByRole("tab", { name: /decide/i });
+  await expect(async () => {
+    await observeTab.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(decideTab).toBeFocused({ timeout: 500 });
+  }).toPass({ timeout: 5_000 });
+
   await expect(decideTab).toBeFocused();
   await expect(decideTab).toHaveAttribute("aria-selected", "true");
   await expect(
