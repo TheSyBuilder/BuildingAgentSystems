@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 1 — Spine and flagship lab
 
-**Current schedule week:** Week 1 (`floor((2026-07-29 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 1 (`floor((2026-07-31 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 1 README demo asset — DONE
+**Last completed unit:** Phase 1 first public deploy — DONE
 
-**Next unit:** Phase 1 first public deploy — configure the approved static host with preview deploys and the existing WIP banner, then record the live URL; this external hosting mutation requires explicit approval before work begins
+**Next unit:** Phase 1 README front-door integration — add the descriptor, demo GIF, live URL above the fold, and concise roadmap without changing the shipped site
 
 ## State note
 
@@ -14,7 +14,8 @@
 
 ## Schedule drift
 
-- `SCHEDULE.md` calls for the site to be public from Week 1. The local WIP front door is ready, but hosting setup and publication remain pending because the operating rules require explicit review before remote mutation.
+- The site is public in Week 1 at `https://building-agent-systems-lab.tsa29.chatgpt.site`, resolving the prior publication drift.
+- The selected Sites host stores independently deployable saved versions, but its available deployment control exposes no separate preview URL (`current_preview_url: null`). Preview URLs remain schedule drift rather than a completion claim.
 
 ## Run reports
 
@@ -815,3 +816,198 @@ The asset and capture script add no user-facing technical claim, so `docs/source
 **Single next unit**
 
 Phase 1 first public deploy — configure the approved static host with preview deploys and the existing WIP banner, then record the live URL. This external hosting mutation requires explicit approval before work begins.
+
+### 2026-07-31 — First public deploy
+
+**Phase and unit completed**
+
+- Phase 1 — Spine and flagship lab
+- Unit: first public Sites deployment at `https://building-agent-systems-lab.tsa29.chatgpt.site`
+- Published the existing WIP-banner homepage and flagship lab without changing either DONE route
+- Added a minimal Cloudflare-compatible asset worker, deterministic `dist/client` staging, persisted Sites project metadata, a hosting-contract audit, and a reusable production Playwright configuration
+- Saved deployment version 2 from commit `0e6f378727ba3f920c9de804de72d4dd6f23e961`; final access mode is public
+- Schedule week: Week 1
+
+**Verification output**
+
+`pnpm build && pnpm typecheck && pnpm test:hosting`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts
+12:59:34 [content] Syncing content
+12:59:34 [content] Synced content
+12:59:34 [types] Generated 183ms
+12:59:34 [build] output: "static"
+12:59:34 [build] mode: "static"
+12:59:34 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+12:59:34 [build] Collecting build info...
+12:59:34 [build] ✓ Completed in 195ms.
+12:59:34 [build] Building static entrypoints...
+12:59:34 [vite] ✓ built in 123ms
+12:59:34 [vite] ✓ built in 51ms
+12:59:34 [build] Rearranging server assets...
+
+ generating static routes
+12:59:34   ├─ /404.html (+8ms)
+12:59:34   ├─ /labs/agent-loop/index.html (+52ms)
+12:59:34   ├─ /index.html (+1ms)
+12:59:34 ✓ Completed in 74ms.
+
+12:59:34 [build] ✓ Completed in 261ms.
+12:59:34 [build] 3 page(s) built in 458ms
+12:59:34 [build] Complete!
+Sites worker: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/server/index.js
+Sites assets: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/client
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+12:59:36 [content] Syncing content
+12:59:36 [content] Synced content
+12:59:36 [types] Generated 178ms
+12:59:36 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (19 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+
+$ node --experimental-strip-types scripts/verify-sites-build.ts
+Sites build contract: client assets and hosting metadata present; / and /labs/agent-loop/ delegate to ASSETS
+```
+
+Final local Playwright regression and built-output link crawl:
+
+```text
+Running 14 tests using 7 workers
+[1/14] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[2/14] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[3/14] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[4/14] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[5/14] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[6/14] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[7/14] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[8/14] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[9/14] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/14] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/14] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/14] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/14] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/14] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+  14 passed (2.8s)
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/labs/agent-loop/
+[200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+[200] dist/_astro/agent-loop.SotwMiDj.css
+✓ Successfully scanned 4 links in 0.024 seconds.
+```
+
+Production HTTP and route checks:
+
+```text
+HTTP/2 200  https://building-agent-systems-lab.tsa29.chatgpt.site/
+HTTP/2 200  https://building-agent-systems-lab.tsa29.chatgpt.site/labs/agent-loop/
+HTTP/2 404  https://building-agent-systems-lab.tsa29.chatgpt.site/not-a-route/
+```
+
+Production Playwright regression with `LIVE_SITE_URL=https://building-agent-systems-lab.tsa29.chatgpt.site pnpm test:live`:
+
+```text
+Running 14 tests using 7 workers
+[1/14] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[2/14] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[3/14] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[4/14] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[5/14] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[6/14] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[7/14] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[8/14] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[9/14] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/14] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/14] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/14] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/14] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/14] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+  14 passed (3.8s)
+```
+
+The production keyboard test waits functionally for hydration, then uses only focus plus Arrow Right, End, Home, and Enter. Production axe coverage reports zero serious or critical violations and zero color-contrast violations on both routes. The production reduced-motion and 360 px captures were manually inspected: both routes preserve their hierarchy, static state, controls, and text alternatives with no horizontal overflow.
+
+Production recursive link check:
+
+```text
+→ crawling https://building-agent-systems-lab.tsa29.chatgpt.site/
+[200] https://building-agent-systems-lab.tsa29.chatgpt.site/
+[200] https://building-agent-systems-lab.tsa29.chatgpt.site/_astro/BaseLayout.Dc1CQ5QZ.css
+[200] https://building-agent-systems-lab.tsa29.chatgpt.site/labs/agent-loop/
+[200] https://building-agent-systems-lab.tsa29.chatgpt.site/_astro/agent-loop.SotwMiDj.css
+✓ Successfully scanned 4 links in 1.473 seconds.
+```
+
+Production Lighthouse, excluding only the hosting platform's injected `*/cdn-cgi/challenge-platform*` resource:
+
+```text
+test-results/lighthouse-live-home-app.json
+{
+  "performance": 98,
+  "accessibility": 100,
+  "FCP": "1.1 s",
+  "LCP": "1.1 s",
+  "TBT": "0 ms",
+  "CLS": "0"
+}
+test-results/lighthouse-live-agent-loop-app.json
+{
+  "performance": 97,
+  "accessibility": 100,
+  "FCP": "1.5 s",
+  "LCP": "1.6 s",
+  "TBT": "0 ms",
+  "CLS": "0"
+}
+```
+
+The unfiltered diagnostic was also retained rather than hidden:
+
+```text
+home: performance 76, accessibility 100
+agent loop: performance 76, accessibility 100
+host-injected /cdn-cgi/challenge-platform/scripts/jsd/main.js bootup: 2.4 s
+```
+
+The shipped source contains no challenge script; blocking only that hosting-layer URL raises the application scores above the required 95 threshold. The primary source added for the asset-binding integration returned `HTTP/2 200`:
+
+```text
+https://developers.cloudflare.com/workers/static-assets/binding/
+```
+
+Sites deployment and access inspection:
+
+```text
+version_number: 2
+deployment_status: succeeded
+current_live_url: https://building-agent-systems-lab.tsa29.chatgpt.site
+access_mode: public
+current_preview_url: null
+```
+
+**Decisions made this run**
+
+- Use Sites for the first public host and retain validated builds as saved versions.
+- Preserve locked Astro static output with a generated asset worker and duplicate the build into the host's required `dist/client` layout rather than changing the application runtime.
+- Report both unfiltered and application-isolated Lighthouse results so platform-injected challenge cost is visible without attributing it to shipped source.
+
+**Remaining uncertainty**
+
+- The selected host's available control exposes saved versions but no separate preview-deployment URL (`current_preview_url: null`). This remains explicit schedule drift.
+- Default headless Lighthouse is distorted by a Cloudflare challenge injected at the hosting layer. The app-isolated audit passes at 98/100 and 97/100; the unfiltered diagnostic remains recorded at 76/100.
+
+**Commit hash and push status**
+
+- Hosting integration commit: `cd7523b` (`feat(hosting): prepare first public deploy`)
+- Asset-layout fix: `0e6f378` (`fix(hosting): stage static assets for Sites`)
+- Production verification commit: `21c46d4` (`test(hosting): add production verification`)
+- Push: all three commits were pushed by ordinary non-force pushes to the verified canonical `origin/main`
+- Deployment: Sites version 2 from `0e6f378727ba3f920c9de804de72d4dd6f23e961` is public and succeeded
+
+**Single next unit**
+
+Phase 1 README front-door integration — add the project descriptor, optimized simulator GIF, public live URL above the fold, and concise roadmap without changing the shipped site.
