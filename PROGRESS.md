@@ -1,12 +1,12 @@
 # Progress
 
-**Current phase:** Phase 1 — Spine and flagship lab
+**Current phase:** Phase 1 — Spine and flagship lab (exit criteria met)
 
-**Current schedule week:** Week 1 (`floor((2026-07-31 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 2 (`floor((2026-08-01 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 1 first public deploy — DONE
+**Last completed unit:** Phase 1 README front-door integration — DONE
 
-**Next unit:** Phase 1 README front-door integration — add the descriptor, demo GIF, live URL above the fold, and concise roadmap without changing the shipped site
+**Next unit:** Phase 2 Start Here module — ship the concept-first page that distinguishes an agent from a chatbot, automation, deterministic workflow, and copilot, with a complete textual decision path; keep the interactive diagnostic as a separate later unit
 
 ## State note
 
@@ -1011,3 +1011,138 @@ current_preview_url: null
 **Single next unit**
 
 Phase 1 README front-door integration — add the project descriptor, optimized simulator GIF, public live URL above the fold, and concise roadmap without changing the shipped site.
+
+### 2026-08-01 — README front-door integration
+
+**Phase and unit completed**
+
+- Phase 1 — Spine and flagship lab
+- Unit: repository README front door with the locked descriptor, reader promise, public URL, optimized simulator GIF, flagship-lab path, concise roadmap, local run instructions, and links to the project ledgers
+- The public URL appears on line 7 and the linked demo appears on line 11, keeping both above the fold on the repository front page
+- The shipped site and every previously completed page, interaction, asset, and source-ledger entry remain unchanged
+- Phase 1 exit criteria are met
+- Schedule week: Week 2
+
+**Verification output**
+
+README acceptance audit:
+
+```text
+1:# Building Agent Systems
+3:**An interactive guide from first loop to production.**
+7:**[Open the live guide →](https://building-agent-systems-lab.tsa29.chatgpt.site/)**
+11:[![The agent loop simulator stepping through a frozen issue-triage trace from observation to an approval boundary](public/assets/agent-loop-demo.gif)](https://building-agent-systems-lab.tsa29.chatgpt.site/labs/agent-loop/)
+33:## Roadmap
+42:## Run it locally
+public/assets/agent-loop-demo.gif: GIF image data, version 89a, 960 x 611
+29d1512577c8b712be15b2ea8bc6ab93272c6f72375599dd3a8941dcf228b98e  public/assets/agent-loop-demo.gif
+```
+
+README-local and public link audit with `pnpm exec linkinator README.md`:
+
+```text
+→ crawling README.md
+[200] README.md
+[200] public/assets/agent-loop-demo.gif
+[200] SCHEDULE.md
+[200] docs/sources.md
+[200] docs/curriculum-outline.md
+[200] PROGRESS.md
+[200] https://building-agent-systems-lab.tsa29.chatgpt.site/
+[200] https://building-agent-systems-lab.tsa29.chatgpt.site/labs/agent-loop/
+✓ Successfully scanned 8 links in 1.653 seconds.
+```
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts
+11:22:48 [content] Syncing content
+11:22:48 [content] Synced content
+11:22:48 [types] Generated 183ms
+11:22:48 [build] output: "static"
+11:22:48 [build] mode: "static"
+11:22:48 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+11:22:48 [build] Collecting build info...
+11:22:48 [build] ✓ Completed in 200ms.
+11:22:48 [build] Building static entrypoints...
+11:22:48 [vite] ✓ built in 150ms
+11:22:48 [vite] ✓ built in 63ms
+11:22:48 [build] Rearranging server assets...
+
+ generating static routes
+11:22:48   ├─ /404.html (+8ms)
+11:22:48   ├─ /labs/agent-loop/index.html (+80ms)
+11:22:48   ├─ /index.html (+1ms)
+11:22:48 ✓ Completed in 106ms.
+
+11:22:48 [build] ✓ Completed in 333ms.
+11:22:48 [build] 3 page(s) built in 536ms
+11:22:48 [build] Complete!
+Sites worker: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/server/index.js
+Sites assets: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/client
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+11:22:49 [content] Syncing content
+11:22:49 [content] Synced content
+11:22:49 [types] Generated 190ms
+11:22:49 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (19 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression, including keyboard-only operation, axe, color contrast, reduced motion, mobile overflow, and the art-direction contract:
+
+```text
+Running 14 tests using 7 workers
+[1/14] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[2/14] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[3/14] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[4/14] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[5/14] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[6/14] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[7/14] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[8/14] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[9/14] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/14] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/14] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/14] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/14] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/14] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+  14 passed (2.9s)
+```
+
+`pnpm test:links`
+
+```text
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/_astro/BaseLayout.Dc1CQ5QZ.css
+[200] dist/labs/agent-loop/
+[200] dist/_astro/agent-loop.SotwMiDj.css
+✓ Successfully scanned 4 links in 0.024 seconds.
+```
+
+The GIF was visually inspected at its original 960 × 611 resolution; its first frame remains legible and matches the frozen issue-triage trace. This documentation-only unit changes no rendered site page or interaction and adds no animation, so changed-page Lighthouse, a new axe target, and new reduced-motion inspection are not applicable. The full route regression above still exercises the existing keyboard, axe, reduced-motion, mobile, and art-direction contracts.
+
+The README describes repository behavior and locked product intent; it adds no new external technical claim, so `docs/sources.md` requires no update.
+
+**Decisions made this run**
+
+- None. The README directly implements the locked identity, reader promise, reference path, roadmap, and Phase 1 deliverable already fixed by `SCHEDULE.md` and `PROGRESS.md`.
+
+**Remaining uncertainty**
+
+- The selected host still exposes saved versions but no separate preview URL (`current_preview_url: null`); the existing schedule drift remains.
+- Public milestone SL-1 still requires choosing an external sharing channel and is not part of this repository-only integration.
+
+**Commit hash and push status**
+
+- Unit commit: `28195b8` (`docs(readme): ship phase one front door`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`e190c96..28195b8`)
+
+**Single next unit**
+
+Phase 2 Start Here module — ship the concept-first page that distinguishes an agent from a chatbot, automation, deterministic workflow, and copilot, with a complete textual decision path; keep the interactive diagnostic as a separate later unit.
