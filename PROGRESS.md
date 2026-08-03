@@ -4,9 +4,9 @@
 
 **Current schedule week:** Week 2 (`floor((2026-08-03 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 2 Start Here concept module — DONE
+**Last completed unit:** Phase 2 agent-or-workflow diagnostic — DONE
 
-**Next unit:** Phase 2 agent-or-workflow diagnostic — explicitly revise `/guide/start-here/` with a keyboard-operable decision-tree interaction that preserves the complete server-rendered text path and records the reader's uncertainty, action boundary, and classification locally
+**Next unit:** Phase 2 Agent Foundations concept module — ship `/guide/agent-foundations/` with goals, instructions, context, state, stop conditions, model-directed versus deterministic control, and a complete textual architecture canvas; leave the interactive canvas for a later unit
 
 ## State note
 
@@ -1287,3 +1287,144 @@ Sites build contract: client assets and hosting metadata present; / and /labs/ag
 **Single next unit**
 
 Phase 2 agent-or-workflow diagnostic — explicitly revise `/guide/start-here/` with a keyboard-operable decision-tree interaction that preserves the complete server-rendered text path and records the reader's uncertainty, action boundary, and classification in device-local state.
+
+### 2026-08-03 — Agent-or-workflow diagnostic
+
+**Phase and unit completed**
+
+- Phase 2 — Foundations and reference-agent skeleton
+- Unit: keyboard-operable agent-or-workflow diagnostic embedded in `/guide/start-here/`
+- Added a task-framing step for one concrete uncertainty and four explicit action boundaries; the existing four-question tree now produces chatbot, automation/workflow, copilot, agent-candidate, or human-led outcomes
+- Persists the reader's uncertainty, boundary, answers, and classification as a versioned device-local receipt; reload restores the draft or result, and the reader can revise or clear it
+- Preserved the complete server-rendered decision path and verified it with JavaScript disabled
+- Previously completed homepage and flagship-lab files remain unchanged
+- Schedule week: Week 2
+
+**Verification output**
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts
+18:10:44 [content] Syncing content
+18:10:44 [content] Synced content
+18:10:44 [types] Generated 166ms
+18:10:44 [build] output: "static"
+18:10:44 [build] mode: "static"
+18:10:44 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:10:44 [build] Collecting build info...
+18:10:44 [build] ✓ Completed in 176ms.
+18:10:44 [build] Building static entrypoints...
+18:10:44 [vite] ✓ built in 123ms
+18:10:44 [vite] ✓ built in 45ms
+18:10:44 [build] Rearranging server assets...
+
+ generating static routes
+18:10:44   ├─ /404.html (+5ms)
+18:10:44   ├─ /guide/start-here/index.html (+9ms)
+18:10:44   ├─ /labs/agent-loop/index.html (+45ms)
+18:10:44   ├─ /index.html (+1ms)
+18:10:44 ✓ Completed in 72ms.
+
+18:10:44 [build] ✓ Completed in 253ms.
+18:10:44 [build] 4 page(s) built in 432ms
+18:10:44 [build] Complete!
+Sites worker: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/server/index.js
+Sites assets: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/client
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:10:45 [content] Syncing content
+18:10:45 [content] Synced content
+18:10:45 [types] Generated 170ms
+18:10:45 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (22 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression:
+
+```text
+Running 20 tests using 7 workers
+[1/20] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[2/20] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[3/20] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[4/20] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[5/20] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[6/20] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[7/20] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[8/20] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[9/20] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/20] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/20] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/20] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/20] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/20] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+[15/20] tests/start-here.spec.ts:17:1 › Start Here renders the complete classification path
+[16/20] tests/start-here.spec.ts:137:1 › Start Here supports a keyboard-only path into the flagship lab
+[17/20] tests/start-here.spec.ts:169:1 › Start Here has no serious, critical, or color-contrast violations
+[18/20] tests/start-here.spec.ts:215:1 › Start Here keeps its visual contract on mobile and reduced motion
+[19/20] tests/start-here.spec.ts:50:1 › Start Here diagnostic classifies and restores a task with the keyboard
+[20/20] tests/start-here.spec.ts:155:1 › Start Here preserves the complete path without JavaScript
+  20 passed (5.9s)
+```
+
+The diagnostic keyboard test types the uncertainty, selects the approval-gated action boundary through the radio group's arrow-key behavior, answers all four questions using Tab and Enter, verifies the agent-candidate receipt, inspects the stored versioned record, reloads, and confirms restoration. The JavaScript-disabled test confirms that all four server-rendered questions and terminal outcomes remain available. Axe scans both the initial form and completed receipt with zero serious, critical, or color-contrast violations.
+
+The generated 1440 px initial and completed-receipt renders and the 360 px reduced-motion render were manually inspected. The diagnostic follows the locked editorial-workbench grammar, its receipt remains readable, and the mobile view has zero horizontal overflow. Under `prefers-reduced-motion: reduce`, control transitions resolve to `0.00001s`; focus movement and state changes remain immediate and understandable.
+
+Changed-route link crawl:
+
+```text
+→ crawling http://127.0.0.1:4321/guide/start-here/
+[200] http://127.0.0.1:4321/guide/start-here/
+[200] http://127.0.0.1:4321/_astro/BaseLayout.-ahT_d4w.css
+[200] http://127.0.0.1:4321/_astro/start-here.C39vZmbe.css
+[200] http://127.0.0.1:4321/
+[200] http://127.0.0.1:4321/labs/agent-loop/
+[200] https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf
+[200] https://www.anthropic.com/engineering/building-effective-agents
+[200] https://support.microsoft.com/en-us/Microsoft-365-Copilot/decide-when-copilot-or-an-agent-is-the-right-tool-for-your-work
+✓ Successfully scanned 8 links in 7.379 seconds.
+```
+
+Lighthouse against `http://127.0.0.1:4321/guide/start-here/`:
+
+```text
+{
+  "performance": 100,
+  "accessibility": 100,
+  "FCP": "1.2 s",
+  "LCP": "1.5 s",
+  "TBT": "0 ms",
+  "CLS": "0"
+}
+```
+
+Sites build contract:
+
+```text
+$ node --experimental-strip-types scripts/verify-sites-build.ts
+Sites build contract: client assets and hosting metadata present; / and /labs/agent-loop/ delegate to ASSETS
+```
+
+This interaction adds no external technical claim. The three architecture sources used by the unchanged Start Here prose remain stamped `verified: 2026-08-03` in `docs/sources.md`, and the changed-route crawl above returned 200 for all three.
+
+**Decisions made this run**
+
+- Persist the diagnostic as a versioned device-local receipt containing only the reader's uncertainty, action boundary, answers, and classification. This preserves the locked no-account boundary while making the checkpoint durable across reloads.
+
+**Remaining uncertainty**
+
+- The canonical source now includes the diagnostic, but the changed route has not been redeployed to the public Sites URL because that external-hosting mutation is a separate approval-gated unit.
+- The selected host still exposes saved versions but no separate preview URL (`current_preview_url: null`).
+
+**Commit hash and push status**
+
+- Unit commit: `4c7fcd3` (`feat(guide): add agent workflow diagnostic`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`a3808b3..4c7fcd3`)
+- Canonical remote: `https://github.com/TheSyBuilder/BuildingAgentSystems.git`; remote default branch verified as `main` immediately before push
+
+**Single next unit**
+
+Phase 2 Agent Foundations concept module — ship `/guide/agent-foundations/` with goals, instructions, context, state, stop conditions, model-directed versus deterministic control, and a complete textual architecture canvas; leave the interactive architecture canvas for a later unit.
