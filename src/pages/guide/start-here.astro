@@ -1,0 +1,48 @@
+---
+import { getEntry, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/start-here.css";
+
+const entry = await getEntry("modules", "start-here");
+
+if (!entry) {
+  throw new Error("The Start Here module is missing from the modules collection.");
+}
+
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={`${entry.data.title} · Building Agent Systems`}
+  description={entry.data.description}
+>
+  <div class="module-shell">
+    <div class="module-banner" role="status">
+      <span class="module-status-dot" aria-hidden="true"></span>
+      <span>Guide in progress</span>
+      <span class="module-banner-note">Module 01 · Published</span>
+    </div>
+
+    <header class="module-header">
+      <a class="module-wordmark" href="/" aria-label="Building Agent Systems, home">
+        <span class="module-wordmark-mark" aria-hidden="true">B/AS</span>
+        <span class="module-wordmark-name">Building Agent Systems</span>
+      </a>
+      <nav class="module-nav" aria-label="Module navigation">
+        <a href="/">Guide home</a>
+        <a href="#decision-path">Decision path</a>
+      </nav>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <article class="module-content">
+        <Content />
+      </article>
+    </main>
+
+    <footer class="module-footer">
+      <a href="/">← Guide home</a>
+      <span>Module 01 / 11 · Start here</span>
+    </footer>
+  </div>
+</BaseLayout>

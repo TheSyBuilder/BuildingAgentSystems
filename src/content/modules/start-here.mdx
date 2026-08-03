@@ -1,0 +1,286 @@
+---
+title: Start here
+description: Decide whether a problem needs a chatbot, automation, deterministic workflow, copilot, agent, or a deliberate mix.
+order: 1
+status: published
+updated: 2026-08-03
+---
+
+<section className="module-hero" aria-labelledby="start-here-title">
+  <div className="module-hero-copy">
+    <p className="module-kicker">Module 01 · Start here</p>
+    <h1 id="start-here-title">
+      <span>Start with</span>
+      <span className="hero-signal">control,</span>
+      <span>not the label.</span>
+    </h1>
+  </div>
+
+  <div className="module-premise">
+    <p className="premise-lead">
+      “Agent” is useful only when it tells you who chooses the next move.
+    </p>
+    <p>
+      Classify the control structure first. Then choose the smallest system that
+      can handle the real uncertainty without hiding who acts, checks, and stops.
+    </p>
+    <dl aria-label="Three control questions">
+      <div>
+        <dt>01 · Choose</dt>
+        <dd>Who selects the next step?</dd>
+      </div>
+      <div>
+        <dt>02 · Act</dt>
+        <dd>Who can change the world?</dd>
+      </div>
+      <div>
+        <dt>03 · Check</dt>
+        <dd>Who decides the work is done?</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section className="taxonomy-section" aria-labelledby="taxonomy-title">
+  <div className="section-intro section-intro-inverse">
+    <div>
+      <p className="module-kicker">Five control patterns</p>
+      <h2 id="taxonomy-title">Name the operating mode.</h2>
+    </div>
+    <p>
+      These are architecture lenses, not mutually exclusive product categories.
+      One product can combine several; inspect each part by who owns its path.
+    </p>
+  </div>
+
+  <div className="taxonomy-grid">
+    <article className="taxonomy-card">
+      <span className="card-index">01</span>
+      <p className="control-owner">The user owns each turn</p>
+      <h3>Chatbot</h3>
+      <p>
+        A conversational surface that returns a response. The exchange can be
+        useful and sophisticated, but the system does not own completion of a
+        multi-step job.
+      </p>
+      <p className="card-test"><strong>Test:</strong> the work ends when the answer arrives.</p>
+    </article>
+
+    <article className="taxonomy-card">
+      <span className="card-index">02</span>
+      <p className="control-owner">A trigger owns the start</p>
+      <h3>Automation</h3>
+      <p>
+        A known event runs a fixed rule or action: assign a default label, send
+        a reminder, copy a record. The route is encoded before execution.
+      </p>
+      <p className="card-test"><strong>Test:</strong> same trigger, same programmed action.</p>
+    </article>
+
+    <article className="taxonomy-card">
+      <span className="card-index">03</span>
+      <p className="control-owner">Code owns the route</p>
+      <h3>Deterministic workflow</h3>
+      <p>
+        Software coordinates several known steps and branches. A model may
+        transform or classify inside a step, while code still chooses what runs
+        next.
+      </p>
+      <p className="card-test"><strong>Test:</strong> the path can be drawn before the run.</p>
+    </article>
+
+    <article className="taxonomy-card">
+      <span className="card-index">04</span>
+      <p className="control-owner">The human owns the route</p>
+      <h3>Copilot</h3>
+      <p>
+        A person stays at the controls while the model drafts, explains,
+        suggests, or prepares a move in the context of their work.
+      </p>
+      <p className="card-test"><strong>Test:</strong> the person chooses every next move.</p>
+    </article>
+
+    <article className="taxonomy-card taxonomy-card-agent">
+      <span className="card-index">05</span>
+      <p className="control-owner">The model owns the next-step choice</p>
+      <h3>Agent</h3>
+      <p>
+        Within explicit guardrails, a model uses current evidence to choose the
+        next step or tool, checks progress, and continues until a stop condition
+        or human handoff.
+      </p>
+      <p className="card-test"><strong>Test:</strong> the exact route emerges during the run.</p>
+    </article>
+  </div>
+
+  <aside className="overlap-note" aria-label="How the patterns overlap">
+    <strong>Interfaces are not architectures.</strong>
+    <p>
+      A chatbot can front an agent. A copilot can launch an automation. An agent
+      can call a deterministic workflow. Label each boundary by who controls it.
+    </p>
+  </aside>
+</section>
+
+<section className="decision-section" id="decision-path" aria-labelledby="decision-title">
+  <div className="section-intro">
+    <div>
+      <p className="module-kicker">Complete text path</p>
+      <h2 id="decision-title">Should this be an agent?</h2>
+    </div>
+    <p>
+      Start at 01. Take the named outcome when it fits; otherwise continue to
+      the next question. “No agent” is often the stronger design.
+    </p>
+  </div>
+
+  <ol className="decision-list">
+    <li>
+      <span className="decision-index" aria-hidden="true">01</span>
+      <div className="decision-question">
+        <h3>Does the job end when a response is delivered?</h3>
+        <p>There is no owned multi-step outcome and no action after the answer.</p>
+      </div>
+      <div className="decision-branches">
+        <p><span>Yes</span><strong>Use a chatbot.</strong></p>
+        <p><span>No</span><strong>Continue to 02.</strong></p>
+      </div>
+    </li>
+    <li>
+      <span className="decision-index" aria-hidden="true">02</span>
+      <div className="decision-question">
+        <h3>Can the correct path and its branches be specified in advance?</h3>
+        <p>The exceptions are known, testable, and cheaper to encode than interpret.</p>
+      </div>
+      <div className="decision-branches">
+        <p><span>Yes</span><strong>Use automation for one action; a deterministic workflow for several.</strong></p>
+        <p><span>No</span><strong>Continue to 03.</strong></p>
+      </div>
+    </li>
+    <li>
+      <span className="decision-index" aria-hidden="true">03</span>
+      <div className="decision-question">
+        <h3>Will a person remain available to choose every next move?</h3>
+        <p>The model can prepare work, but the person keeps sequence and judgment.</p>
+      </div>
+      <div className="decision-branches">
+        <p><span>Yes</span><strong>Use a copilot.</strong></p>
+        <p><span>No</span><strong>Continue to 04.</strong></p>
+      </div>
+    </li>
+    <li>
+      <span className="decision-index" aria-hidden="true">04</span>
+      <div className="decision-question">
+        <h3>Can independent steps be bounded, observed, verified, and stopped?</h3>
+        <p>Name the tools, permissions, evidence, budgets, stop conditions, and handoff.</p>
+      </div>
+      <div className="decision-branches">
+        <p><span>Yes</span><strong>You have an agent candidate.</strong></p>
+        <p><span>No</span><strong>Keep it human-led or shrink the job until those controls exist.</strong></p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section className="worked-section" aria-labelledby="worked-title">
+  <div className="worked-heading">
+    <p className="module-kicker">Worked classification · issue triage</p>
+    <h2 id="worked-title">The best answer is a mix.</h2>
+    <p>
+      The frozen reference case contains ambiguity, but not every part needs a
+      model-directed path.
+    </p>
+  </div>
+
+  <div className="system-strip" aria-label="Issue-triage control structure">
+    <article>
+      <span>01 · Deterministic</span>
+      <h3>Load the snapshot</h3>
+      <p>Known code validates and supplies the same read-only issue data.</p>
+    </article>
+    <article className="system-agent">
+      <span>02 · Agentic</span>
+      <h3>Judge the issue</h3>
+      <p>The model reads, compares similar issues, and proposes labels with evidence.</p>
+    </article>
+    <article>
+      <span>03 · Human gated</span>
+      <h3>Change the record</h3>
+      <p>Code cannot apply a label until a person reviews the proposal and approves.</p>
+    </article>
+  </div>
+
+  <div className="classification-receipt">
+    <p className="receipt-label">Classification receipt · BAS-001</p>
+    <dl>
+      <div>
+        <dt>Uncertainty</dt>
+        <dd>Severity and duplicate signals depend on issue context.</dd>
+      </div>
+      <div>
+        <dt>Authority</dt>
+        <dd>Read and propose only; applying a label remains approval-gated.</dd>
+      </div>
+      <div>
+        <dt>Evidence</dt>
+        <dd>Quoted issue details, similar records, and a stated rationale.</dd>
+      </div>
+      <div>
+        <dt>Choice</dt>
+        <dd>A narrow agent inside deterministic and human-controlled boundaries.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section className="checkpoint-section" aria-labelledby="checkpoint-title">
+  <div>
+    <p className="module-kicker">Checkpoint 01</p>
+    <h2 id="checkpoint-title">Write the boundary before the build.</h2>
+    <p>
+      Classify one proposed task. If these four lines are vague, the system is
+      not ready to become more autonomous.
+    </p>
+  </div>
+  <div className="checkpoint-card" aria-label="Start Here checkpoint template">
+    <p><span>Task</span> What outcome must be completed?</p>
+    <p><span>Uncertainty</span> What cannot be encoded reliably in advance?</p>
+    <p><span>Authority</span> What may the system read, propose, or change?</p>
+    <p><span>Evidence</span> What proves progress and earns a safe stop?</p>
+    <p className="checkpoint-choice"><span>Choice</span> Chatbot / automation / workflow / copilot / agent / mix</p>
+  </div>
+</section>
+
+<aside className="source-note" aria-labelledby="source-title">
+  <div>
+    <p className="module-kicker">Primary-source note</p>
+    <h2 id="source-title">A working taxonomy, not a trademark map.</h2>
+  </div>
+  <div>
+    <p>
+      The architectural split follows primary guidance that distinguishes
+      predefined code paths from model-directed execution and keeps human
+      oversight proportional to the action boundary.
+    </p>
+    <ul>
+      <li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic · Building effective agents</a></li>
+      <li><a href="https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf">OpenAI · A practical guide to building agents</a></li>
+      <li><a href="https://support.microsoft.com/en-us/Microsoft-365-Copilot/decide-when-copilot-or-an-agent-is-the-right-tool-for-your-work">Microsoft · Decide when Copilot or an agent fits</a></li>
+    </ul>
+    <p className="verified-stamp">Verified: 2026-08-03</p>
+  </div>
+</aside>
+
+<section className="next-path" aria-labelledby="next-title">
+  <div>
+    <p className="module-kicker">Next · inspect the evidence</p>
+    <h2 id="next-title">See an agent earn each step.</h2>
+  </div>
+  <div>
+    <p>
+      Walk the frozen issue-triage trace from observation to a proposal-only
+      stop. No account, API key, or side effect.
+    </p>
+    <a className="module-primary-link" href="/labs/agent-loop/">Open the agent loop <span aria-hidden="true">→</span></a>
+  </div>
+</section>
