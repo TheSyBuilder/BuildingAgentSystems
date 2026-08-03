@@ -1,12 +1,12 @@
 # Progress
 
-**Current phase:** Phase 1 — Spine and flagship lab (exit criteria met)
+**Current phase:** Phase 2 — Foundations and reference-agent skeleton (in progress)
 
-**Current schedule week:** Week 2 (`floor((2026-08-01 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 2 (`floor((2026-08-03 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 1 README front-door integration — DONE
+**Last completed unit:** Phase 2 Start Here concept module — DONE
 
-**Next unit:** Phase 2 Start Here module — ship the concept-first page that distinguishes an agent from a chatbot, automation, deterministic workflow, and copilot, with a complete textual decision path; keep the interactive diagnostic as a separate later unit
+**Next unit:** Phase 2 agent-or-workflow diagnostic — explicitly revise `/guide/start-here/` with a keyboard-operable decision-tree interaction that preserves the complete server-rendered text path and records the reader's uncertainty, action boundary, and classification locally
 
 ## State note
 
@@ -16,6 +16,7 @@
 
 - The site is public in Week 1 at `https://building-agent-systems-lab.tsa29.chatgpt.site`, resolving the prior publication drift.
 - The selected Sites host stores independently deployable saved versions, but its available deployment control exposes no separate preview URL (`current_preview_url: null`). Preview URLs remain schedule drift rather than a completion claim.
+- Phase 2 content work began during schedule Week 2, five days before its planned August 8 start. This is additive progress; Phase 1 exit criteria remain met.
 
 ## Run reports
 
@@ -1146,3 +1147,143 @@ The README describes repository behavior and locked product intent; it adds no n
 **Single next unit**
 
 Phase 2 Start Here module — ship the concept-first page that distinguishes an agent from a chatbot, automation, deterministic workflow, and copilot, with a complete textual decision path; keep the interactive diagnostic as a separate later unit.
+
+### 2026-08-03 — Start Here concept module
+
+**Phase and unit completed**
+
+- Phase 2 — Foundations and reference-agent skeleton
+- Unit: published Start Here concept module at `/guide/start-here/`
+- Shipped five control-pattern definitions for chatbot, automation, deterministic workflow, copilot, and agent; a four-question textual decision path with every branch and terminal outcome; a hybrid issue-triage classification; a reusable checkpoint receipt; and primary-source notes
+- The page is rendered from the existing MDX content collection with zero client JavaScript and no page animation; the interactive agent-or-workflow diagnostic remains a separate unit
+- Previously completed homepage and flagship-lab files remain unchanged
+- Schedule week: Week 2
+
+**Verification output**
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts
+14:17:27 [content] Syncing content
+14:17:27 [content] Synced content
+14:17:27 [types] Generated 172ms
+14:17:27 [build] output: "static"
+14:17:27 [build] mode: "static"
+14:17:27 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+14:17:27 [build] Collecting build info...
+14:17:27 [build] ✓ Completed in 185ms.
+14:17:27 [build] Building static entrypoints...
+14:17:27 [vite] ✓ built in 142ms
+14:17:27 [vite] ✓ built in 50ms
+14:17:27 [build] Rearranging server assets...
+
+ generating static routes
+14:17:27   ├─ /404.html (+5ms)
+14:17:27   ├─ /guide/start-here/index.html (+5ms)
+14:17:27   ├─ /labs/agent-loop/index.html (+49ms)
+14:17:27   ├─ /index.html (+1ms)
+14:17:27 ✓ Completed in 74ms.
+
+14:17:27 [build] ✓ Completed in 279ms.
+14:17:27 [build] 4 page(s) built in 466ms
+14:17:27 [build] Complete!
+Sites worker: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/server/index.js
+Sites assets: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/client
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+14:17:28 [content] Syncing content
+14:17:28 [content] Synced content
+14:17:28 [types] Generated 174ms
+14:17:28 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (21 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression:
+
+```text
+Running 18 tests using 7 workers
+[1/18] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[2/18] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[3/18] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[4/18] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[5/18] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[6/18] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[7/18] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[8/18] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[9/18] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[10/18] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[11/18] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[12/18] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[13/18] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[14/18] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+[15/18] tests/start-here.spec.ts:4:1 › Start Here renders the complete classification path
+[16/18] tests/start-here.spec.ts:73:1 › Start Here keeps its visual contract on mobile and reduced motion
+[17/18] tests/start-here.spec.ts:34:1 › Start Here supports a keyboard-only path into the flagship lab
+[18/18] tests/start-here.spec.ts:54:1 › Start Here has no serious, critical, or color-contrast violations
+  18 passed (2.5s)
+```
+
+The Start Here acceptance test asserts all five categories, all four questions, every terminal outcome, the worked classification receipt, and the verification stamp. Its keyboard-only path uses Tab and Enter from the skip link through the primary sources and into the flagship lab. Axe reports zero serious or critical violations and zero color-contrast violations.
+
+The full-page 1440 px desktop and 360 px reduced-motion captures were manually inspected. Both preserve reading order, section hierarchy, the complete decision path, the hybrid-system strip, checkpoint, sources, and next action. The 360 px render has zero horizontal overflow. The page introduces no animation; under `prefers-reduced-motion: reduce`, its status marker reports `animation-name: none` and global smooth scrolling resolves to `auto`.
+
+Route-specific link crawl:
+
+```text
+→ crawling http://127.0.0.1:4321/guide/start-here/
+[200] http://127.0.0.1:4321/guide/start-here/
+[200] http://127.0.0.1:4321/_astro/BaseLayout.-ahT_d4w.css
+[200] http://127.0.0.1:4321/_astro/start-here.Dyp077gb.css
+[200] http://127.0.0.1:4321/
+[200] http://127.0.0.1:4321/labs/agent-loop/
+[200] https://www.anthropic.com/engineering/building-effective-agents
+[200] https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf
+[200] https://support.microsoft.com/en-us/Microsoft-365-Copilot/decide-when-copilot-or-an-agent-is-the-right-tool-for-your-work
+✓ Successfully scanned 8 links in 3.797 seconds.
+```
+
+Lighthouse against `http://127.0.0.1:4321/guide/start-here/`:
+
+```text
+{
+  "performance": 100,
+  "accessibility": 100,
+  "FCP": "0.9 s",
+  "LCP": "0.9 s",
+  "TBT": "0 ms",
+  "CLS": "0"
+}
+```
+
+Sites build contract:
+
+```text
+$ node --experimental-strip-types scripts/verify-sites-build.ts
+Sites build contract: client assets and hosting metadata present; / and /labs/agent-loop/ delegate to ASSETS
+```
+
+`docs/sources.md` re-verifies the existing Anthropic architecture boundary and adds current primary OpenAI and Microsoft guidance, all stamped `verified: 2026-08-03`. The page links those same sources directly.
+
+**Decisions made this run**
+
+- Classify systems by control ownership rather than product labels. Chatbot, automation, workflow, copilot, and agent can overlap in one product, while who chooses the path, acts, verifies, and stops exposes the architecture a reader must design.
+- Reused the locked contrast-safe blue for the worked-classification panel after axe measured normal white text on core blue at 4.01:1; the core blue remains the large-type explanatory accent.
+
+**Remaining uncertainty**
+
+- The interactive agent-or-workflow diagnostic is intentionally not part of this concept-first unit.
+- The canonical source is pushed, but this new route has not been deployed to the public Sites URL because a deployment is an external-hosting mutation requiring its own approval gate. Phase 2 exit deployment remains later in the schedule.
+- The selected host still exposes saved versions but no separate preview URL (`current_preview_url: null`).
+
+**Commit hash and push status**
+
+- Unit commit: `b246b26` (`feat(guide): ship start here module`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`de9cd8d..b246b26`)
+- Canonical remote: `https://github.com/TheSyBuilder/BuildingAgentSystems.git`; remote default branch verified as `main` immediately before push
+
+**Single next unit**
+
+Phase 2 agent-or-workflow diagnostic — explicitly revise `/guide/start-here/` with a keyboard-operable decision-tree interaction that preserves the complete server-rendered text path and records the reader's uncertainty, action boundary, and classification in device-local state.
