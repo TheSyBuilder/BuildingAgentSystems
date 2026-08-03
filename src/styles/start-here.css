@@ -212,6 +212,7 @@
 }
 
 .section-intro h2,
+.diagnostic-heading h2,
 .worked-heading h2,
 .checkpoint-section h2,
 .source-note h2,
@@ -226,6 +227,7 @@
 }
 
 .section-intro > p,
+.diagnostic-heading > p,
 .worked-heading > p:last-child,
 .checkpoint-section > div:first-child > p:last-child,
 .next-path > div:last-child > p {
@@ -341,6 +343,432 @@
   font-size: clamp(1rem, 1.6vw, 1.25rem);
   font-weight: 650;
   line-height: 1.3;
+}
+
+.diagnostic-section {
+  padding: clamp(4rem, 8vw, 7rem) var(--page-pad);
+  border-bottom: var(--rule);
+  background: var(--acid);
+}
+
+.diagnostic-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.7fr);
+  gap: clamp(2rem, 7vw, 7rem);
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.diagnostic-heading > p {
+  align-self: end;
+}
+
+.diagnostic-frame {
+  display: grid;
+  grid-template-columns: minmax(12.5rem, 0.28fr) minmax(0, 1fr);
+  min-height: 39rem;
+  border: var(--rule);
+  box-shadow: 10px 10px 0 var(--ink);
+  background: var(--paper);
+}
+
+.diagnostic-rail {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.diagnostic-rail > p:first-child,
+.diagnostic-local-note,
+.diagnostic-step-label,
+.diagnostic-storage,
+.diagnostic-field > span,
+.diagnostic-boundaries legend,
+.diagnostic-receipt > p,
+.diagnostic-receipt dt {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.diagnostic-rail > p:first-child {
+  margin: 0;
+  color: var(--acid);
+  line-height: 1.4;
+}
+
+.diagnostic-rail ol {
+  display: grid;
+  margin: 2rem 0;
+  padding: 0;
+  border-top: 2px solid #5b5b57;
+  list-style: none;
+}
+
+.diagnostic-rail li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.2rem 0.55rem;
+  padding: 1rem 0;
+  border-bottom: 2px solid #5b5b57;
+  color: #c8c4bb;
+}
+
+.diagnostic-rail li > span {
+  grid-row: 1 / 3;
+  color: var(--acid);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.diagnostic-rail li strong {
+  font-size: 1rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.diagnostic-rail li small {
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+.diagnostic-rail .diagnostic-stage-active {
+  margin-inline: -1.5rem;
+  padding-inline: 1.5rem;
+  background: var(--acid);
+  color: var(--ink);
+}
+
+.diagnostic-rail .diagnostic-stage-active > span {
+  color: var(--ink);
+}
+
+.diagnostic-local-note {
+  margin: auto 0 0;
+  color: #c8c4bb;
+  line-height: 1.4;
+}
+
+.diagnostic-workbench {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.diagnostic-workbench form,
+.diagnostic-question-panel,
+.diagnostic-result {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.diagnostic-step-label {
+  margin: 0 0 1rem;
+}
+
+.diagnostic-workbench h3 {
+  max-width: 21ch;
+  margin: 0;
+  font-size: clamp(2.4rem, 5.2vw, 5.2rem);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.diagnostic-workbench h3:focus {
+  outline: 0;
+}
+
+.diagnostic-workbench h3:focus-visible {
+  outline: 4px solid var(--blue);
+  outline-offset: 0.35rem;
+}
+
+.diagnostic-field {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 2.25rem;
+}
+
+.diagnostic-field textarea {
+  width: 100%;
+  min-height: 7rem;
+  padding: 1rem;
+  border: var(--rule);
+  border-radius: 0;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.diagnostic-field textarea::placeholder {
+  color: #62625e;
+  opacity: 1;
+}
+
+.diagnostic-field > small {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.diagnostic-boundaries {
+  margin: 2rem 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.diagnostic-boundaries legend {
+  margin-bottom: 0.75rem;
+  padding: 0;
+}
+
+.diagnostic-boundary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: var(--rule);
+  border-left: var(--rule);
+}
+
+.diagnostic-boundary-grid > label {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: 1rem;
+  border-right: var(--rule);
+  border-bottom: var(--rule);
+  background: white;
+  cursor: pointer;
+}
+
+.diagnostic-boundary-grid > label:has(input:checked) {
+  background: var(--coral);
+}
+
+.diagnostic-boundary-grid input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.05rem 0 0;
+  accent-color: var(--ink);
+}
+
+.diagnostic-boundary-grid label > span {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.diagnostic-boundary-grid strong {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.diagnostic-boundary-grid small {
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.diagnostic-question-help,
+.diagnostic-result-summary {
+  max-width: 44rem;
+  margin: 1.25rem 0 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.diagnostic-answer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: clamp(2.5rem, 7vw, 5.5rem);
+}
+
+.diagnostic-answer,
+.diagnostic-primary,
+.diagnostic-secondary,
+.diagnostic-clear {
+  border-radius: 0;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.diagnostic-answer {
+  display: grid;
+  min-height: 8.5rem;
+  align-content: space-between;
+  justify-items: start;
+  padding: 1.25rem;
+  border: var(--rule);
+  box-shadow: 6px 6px 0 var(--ink);
+  background: white;
+  text-align: left;
+  transition: box-shadow 120ms ease, transform 120ms ease, background-color 120ms ease;
+}
+
+.diagnostic-answer:hover {
+  box-shadow: 3px 3px 0 var(--ink);
+  background: var(--coral);
+  transform: translate(3px, 3px);
+}
+
+.diagnostic-answer > span {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.diagnostic-answer > small {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.diagnostic-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 2rem;
+}
+
+.diagnostic-actions-end {
+  justify-content: flex-end;
+}
+
+.diagnostic-actions > p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.diagnostic-primary,
+.diagnostic-secondary {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1rem;
+  border: var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.diagnostic-primary {
+  box-shadow: 5px 5px 0 var(--ink);
+  background: var(--acid);
+}
+
+.diagnostic-secondary {
+  background: white;
+}
+
+.diagnostic-result h3 {
+  width: fit-content;
+  padding: 0.08em 0.14em 0.12em;
+  background: var(--acid);
+}
+
+.diagnostic-receipt {
+  margin-top: 2rem;
+  border: var(--rule);
+  box-shadow: 7px 7px 0 var(--ink);
+  background: white;
+}
+
+.diagnostic-receipt > p {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-bottom: var(--rule);
+  background: var(--coral);
+}
+
+.diagnostic-receipt dl {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr;
+  margin: 0;
+}
+
+.diagnostic-receipt dl > div {
+  min-width: 0;
+  padding: 1rem;
+  border-right: var(--rule);
+}
+
+.diagnostic-receipt dl > div:last-child {
+  border-right: 0;
+}
+
+.diagnostic-receipt dd {
+  margin: 0.55rem 0 0;
+  font-weight: 750;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.diagnostic-result-actions {
+  align-items: flex-end;
+}
+
+.diagnostic-clear {
+  padding: 0.45rem 0;
+  border: 0;
+  border-bottom: 2px solid var(--ink);
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.diagnostic-storage {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: var(--rule);
+}
+
+.diagnostic-storage > span {
+  color: #176f32;
+}
+
+.diagnostic-storage p {
+  margin: 0;
+}
+
+.diagnostic-noscript {
+  margin: 1.5rem 0 0;
+  padding: 1rem;
+  border: var(--rule);
+  background: var(--paper);
+  font-weight: 750;
 }
 
 .decision-section {
@@ -665,11 +1093,45 @@
 @media (max-width: 900px) {
   .module-hero,
   .section-intro,
+  .diagnostic-heading,
   .worked-heading,
   .checkpoint-section,
   .source-note,
   .next-path {
     grid-template-columns: 1fr;
+  }
+
+  .diagnostic-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .diagnostic-rail {
+    padding: 1.25rem;
+  }
+
+  .diagnostic-rail ol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 1.25rem 0;
+    border-left: 2px solid #5b5b57;
+  }
+
+  .diagnostic-rail li {
+    grid-template-columns: 1fr;
+    padding: 0.85rem;
+    border-right: 2px solid #5b5b57;
+  }
+
+  .diagnostic-rail li > span {
+    grid-row: auto;
+  }
+
+  .diagnostic-rail .diagnostic-stage-active {
+    margin: 0;
+    padding: 0.85rem;
+  }
+
+  .diagnostic-local-note {
+    margin-top: 0;
   }
 
   .module-hero {
@@ -728,8 +1190,28 @@
 
   .taxonomy-grid,
   .system-strip,
-  .classification-receipt dl {
+  .classification-receipt dl,
+  .diagnostic-boundary-grid,
+  .diagnostic-answer-grid,
+  .diagnostic-receipt dl {
     grid-template-columns: 1fr;
+  }
+
+  .diagnostic-receipt dl > div {
+    border-right: 0;
+    border-bottom: var(--rule);
+  }
+
+  .diagnostic-receipt dl > div:last-child {
+    border-bottom: 0;
+  }
+
+  .diagnostic-rail li small {
+    display: none;
+  }
+
+  .diagnostic-answer {
+    min-height: 6.5rem;
   }
 
   .taxonomy-card-agent {
@@ -758,11 +1240,28 @@
   }
 
   .section-intro h2,
+  .diagnostic-heading h2,
   .worked-heading h2,
   .checkpoint-section h2,
   .source-note h2,
   .next-path h2 {
     font-size: clamp(2.5rem, 13vw, 4rem);
+  }
+
+  .diagnostic-actions,
+  .diagnostic-result-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .diagnostic-actions > p {
+    order: -1;
+  }
+
+  .diagnostic-primary,
+  .diagnostic-secondary,
+  .diagnostic-clear {
+    width: 100%;
   }
 
   .decision-list > li {
