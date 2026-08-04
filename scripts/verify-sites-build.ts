@@ -12,6 +12,7 @@ await access(workerPath);
 await Promise.all([
   access(resolve(clientPath, "index.html")),
   access(resolve(clientPath, "404.html")),
+  access(resolve(clientPath, "guide", "agent-foundations", "index.html")),
   access(resolve(clientPath, "labs", "agent-loop", "index.html")),
   access(resolve(clientPath, "assets", "agent-loop-demo.gif")),
 ]);
@@ -36,7 +37,7 @@ const { default: worker } = (await import(workerUrl.href)) as {
   };
 };
 
-for (const pathname of ["/", "/labs/agent-loop/"]) {
+for (const pathname of ["/", "/guide/agent-foundations/", "/labs/agent-loop/"]) {
   const request = new Request(`https://building-agent-systems.test${pathname}`);
   let delegatedUrl = "";
   const response = await worker.fetch(request, {
@@ -57,5 +58,5 @@ for (const pathname of ["/", "/labs/agent-loop/"]) {
 }
 
 console.log(
-  "Sites build contract: client assets and hosting metadata present; / and /labs/agent-loop/ delegate to ASSETS",
+  "Sites build contract: client assets and hosting metadata present; /, /guide/agent-foundations/, and /labs/agent-loop/ delegate to ASSETS",
 );

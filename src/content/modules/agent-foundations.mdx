@@ -1,0 +1,356 @@
+---
+title: Agent foundations
+description: Design the goal, instructions, context, control, state, and stop conditions around one inspectable agent loop.
+order: 2
+status: published
+updated: 2026-08-04
+---
+
+<section className="module-hero foundations-hero" aria-labelledby="foundations-title">
+  <div className="module-hero-copy">
+    <p className="module-kicker">Module 02 · Agent foundations</p>
+    <h1 id="foundations-title">
+      <span>Architecture</span>
+      <span className="hero-signal">before</span>
+      <span>autonomy.</span>
+    </h1>
+  </div>
+
+  <div className="module-premise foundations-premise">
+    <p className="premise-lead">
+      An agent is a loop inside a system that still owns the rules.
+    </p>
+    <p>
+      The model may choose a next step. Your software still decides what the
+      model can see, what it can do, what persists, and when the run must stop.
+    </p>
+    <dl aria-label="Three architecture owners">
+      <div>
+        <dt>01 · Model</dt>
+        <dd>Chooses among bounded next moves.</dd>
+      </div>
+      <div>
+        <dt>02 · Runtime</dt>
+        <dd>Executes, records, checks, and limits.</dd>
+      </div>
+      <div>
+        <dt>03 · Human</dt>
+        <dd>Owns consequential authority and handoff.</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section className="foundation-map" aria-labelledby="inputs-title">
+  <div className="section-intro section-intro-inverse">
+    <div>
+      <p className="module-kicker">Six architecture inputs</p>
+      <h2 id="inputs-title">Give the loop a shape.</h2>
+    </div>
+    <p>
+      A model is one component, not the architecture. Name each input before
+      implementation so behavior can be inspected when the run surprises you.
+    </p>
+  </div>
+
+  <div className="foundation-grid">
+    <article className="foundation-card">
+      <span className="foundation-index">01</span>
+      <p className="foundation-owner">Outcome contract</p>
+      <h3>Goal</h3>
+      <p>The outcome to complete, for whom, with observable evidence of success.</p>
+      <p className="foundation-test"><strong>Write:</strong> a result someone can verify.</p>
+    </article>
+
+    <article className="foundation-card">
+      <span className="foundation-index">02</span>
+      <p className="foundation-owner">Behavior contract</p>
+      <h3>Instructions</h3>
+      <p>The priorities, policies, process guidance, and forbidden behavior for this job.</p>
+      <p className="foundation-test"><strong>Write:</strong> what to do when evidence conflicts.</p>
+    </article>
+
+    <article className="foundation-card">
+      <span className="foundation-index">03</span>
+      <p className="foundation-owner">Evidence boundary</p>
+      <h3>Context</h3>
+      <p>The selected facts, history, tool definitions, and results available for this decision.</p>
+      <p className="foundation-test"><strong>Choose:</strong> what earns space now.</p>
+    </article>
+
+    <article className="foundation-card">
+      <span className="foundation-index">04</span>
+      <p className="foundation-owner">Decision engine</p>
+      <h3>Model</h3>
+      <p>The component that interprets current evidence and proposes or selects a bounded move.</p>
+      <p className="foundation-test"><strong>Choose:</strong> capability against quality, cost, and latency.</p>
+    </article>
+
+    <article className="foundation-card">
+      <span className="foundation-index">05</span>
+      <p className="foundation-owner">Continuity contract</p>
+      <h3>State</h3>
+      <p>The structured facts required to resume, verify, reconcile, or explain the work.</p>
+      <p className="foundation-test"><strong>Keep:</strong> facts because a later step needs them.</p>
+    </article>
+
+    <article className="foundation-card foundation-card-stop">
+      <span className="foundation-index">06</span>
+      <p className="foundation-owner">Control contract</p>
+      <h3>Stop conditions</h3>
+      <p>Success, failure, budget, approval, and handoff rules enforced outside model preference.</p>
+      <p className="foundation-test"><strong>Name:</strong> every safe exit before the first run.</p>
+    </article>
+  </div>
+</section>
+
+<section className="control-section" aria-labelledby="control-title">
+  <div className="section-intro">
+    <div>
+      <p className="module-kicker">Control ownership</p>
+      <h2 id="control-title">Put judgment inside code.</h2>
+    </div>
+    <p>
+      “Model-directed” should describe only the uncertain choice. Keep known
+      sequence, validation, permissions, budgets, and side effects deterministic.
+    </p>
+  </div>
+
+  <div className="control-board" aria-label="Deterministic and model-directed issue-triage loop">
+    <div className="control-board-header" aria-hidden="true">
+      <span>Stage</span>
+      <span>Owner</span>
+      <span>Issue-triage behavior</span>
+      <span>Why this owner</span>
+    </div>
+    <ol>
+      <li>
+        <span className="control-stage">01 · Observe</span>
+        <span className="owner-badge owner-code">Code</span>
+        <strong>Load and validate the frozen issue.</strong>
+        <p>The input shape and read boundary are known in advance.</p>
+      </li>
+      <li>
+        <span className="control-stage">02 · Decide</span>
+        <span className="owner-badge owner-model">Model</span>
+        <strong>Choose which missing evidence matters next.</strong>
+        <p>The best read depends on the issue’s language and current evidence.</p>
+      </li>
+      <li>
+        <span className="control-stage">03 · Act</span>
+        <span className="owner-badge owner-code">Code</span>
+        <strong>Execute one allowed read tool.</strong>
+        <p>Tool validation, permission checks, and timeouts are runtime work.</p>
+      </li>
+      <li>
+        <span className="control-stage">04 · Verify</span>
+        <span className="owner-badge owner-shared">Shared</span>
+        <strong>Interpret the result; enforce the acceptance check.</strong>
+        <p>The model reads meaning. Code checks structure, budget, and policy.</p>
+      </li>
+      <li>
+        <span className="control-stage">05 · Stop</span>
+        <span className="owner-badge owner-code">Code</span>
+        <strong>Return the proposal or hand off.</strong>
+        <p>A verified receipt, exceeded limit, error, or approval boundary ends the loop.</p>
+      </li>
+    </ol>
+  </div>
+
+  <aside className="control-rule" aria-label="Control ownership rule">
+    <span>Rule of thumb</span>
+    <p>
+      Let the model choose where interpretation is the point. Use deterministic
+      code wherever the correct behavior can be written, validated, or enforced.
+    </p>
+  </aside>
+</section>
+
+<section className="state-section" aria-labelledby="state-title">
+  <div className="section-intro state-heading">
+    <div>
+      <p className="module-kicker">State is not one bucket</p>
+      <h2 id="state-title">Keep facts by lifetime.</h2>
+    </div>
+    <p>
+      “Memory” often hides four different needs. Separate them by owner and
+      lifetime so a restart, a new turn, or a new task does not blur the truth.
+    </p>
+  </div>
+
+  <div className="state-grid">
+    <article>
+      <span>01 · One execution</span>
+      <h3>Run state</h3>
+      <p>Current step, tool results, counters, pending approval, and the evidence gathered now.</p>
+      <dl>
+        <div><dt>Lives</dt><dd>For this run</dd></div>
+        <div><dt>Owner</dt><dd>Runtime</dd></div>
+      </dl>
+    </article>
+    <article>
+      <span>02 · One continuing thread</span>
+      <h3>Session</h3>
+      <p>The selected history needed to continue the same conversation or resumable task.</p>
+      <dl>
+        <div><dt>Lives</dt><dd>Across turns</dd></div>
+        <div><dt>Owner</dt><dd>Application</dd></div>
+      </dl>
+    </article>
+    <article>
+      <span>03 · Future work</span>
+      <h3>Memory</h3>
+      <p>Deliberately retained facts or summaries that future tasks are allowed to retrieve.</p>
+      <dl>
+        <div><dt>Lives</dt><dd>Across sessions</dd></div>
+        <div><dt>Owner</dt><dd>Product policy</dd></div>
+      </dl>
+    </article>
+    <article className="state-card-durable">
+      <span>04 · External truth</span>
+      <h3>Durable work</h3>
+      <p>Job status, action receipts, idempotency keys, and records required after process loss.</p>
+      <dl>
+        <div><dt>Lives</dt><dd>Across restarts</dd></div>
+        <div><dt>Owner</dt><dd>System of record</dd></div>
+      </dl>
+    </article>
+  </div>
+
+  <p className="state-caution">
+    <strong>Context is what the model sees now.</strong> State is what the system
+    knows. Memory is the subset intentionally retained for later. Durable work
+    must survive even when no model conversation does.
+  </p>
+</section>
+
+<section className="canvas-section" id="architecture-canvas" aria-labelledby="canvas-title">
+  <div className="canvas-heading">
+    <div>
+      <p className="module-kicker">Textual architecture canvas · BAS-002</p>
+      <h2 id="canvas-title">Make every owner visible.</h2>
+    </div>
+    <p>
+      This filled canvas is the non-interactive reference for the builder that
+      follows. If a row is unknown, keep the agent read-only or shrink the job.
+    </p>
+  </div>
+
+  <div className="canvas-sheet">
+    <p className="canvas-stamp">Frozen reference · issue triage · read-only</p>
+    <dl>
+      <div>
+        <dt>Goal</dt>
+        <dd>Propose one label and priority for an incoming issue, with evidence a maintainer can review.</dd>
+      </div>
+      <div>
+        <dt>Success evidence</dt>
+        <dd>Valid proposed label, stated priority, quoted issue facts, similar-issue references, and a rationale.</dd>
+      </div>
+      <div>
+        <dt>Instructions</dt>
+        <dd>Follow the triage rubric; separate fact from inference; never claim a duplicate without a cited match.</dd>
+      </div>
+      <div>
+        <dt>Context</dt>
+        <dd>Current issue, label taxonomy, severity rubric, tool definitions, and only the retrieved similar issues.</dd>
+      </div>
+      <div>
+        <dt>Model choice</dt>
+        <dd>Choose the next read, interpret ambiguous evidence, and draft the proposal.</dd>
+      </div>
+      <div>
+        <dt>Deterministic shell</dt>
+        <dd>Validate inputs and outputs, execute allowlisted reads, count steps, record results, and enforce stops.</dd>
+      </div>
+      <div>
+        <dt>Authority</dt>
+        <dd>Read the bundled snapshot and propose. Posting a comment or applying a label requires human approval.</dd>
+      </div>
+      <div>
+        <dt>Run state</dt>
+        <dd>Issue ID, gathered evidence, tool results, step count, proposed classification, and pending handoff.</dd>
+      </div>
+      <div>
+        <dt>Persistence</dt>
+        <dd>No cross-session memory yet. The completed proposal receipt can be exported; the sample snapshot stays unchanged.</dd>
+      </div>
+      <div>
+        <dt>Stop conditions</dt>
+        <dd>Verified proposal; no useful read remains; malformed or denied tool result; budget reached; or approval required.</dd>
+      </div>
+      <div>
+        <dt>Handoff receipt</dt>
+        <dd>Outcome, evidence used, uncertainty left, actions taken, actions not taken, and the exact approval request.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <aside className="canvas-blank" aria-labelledby="blank-title">
+    <div>
+      <p className="module-kicker">Reader copy · blank canvas</p>
+      <h3 id="blank-title">Ask before you automate.</h3>
+    </div>
+    <ol>
+      <li><span>01</span>What observable outcome is the system responsible for?</li>
+      <li><span>02</span>What evidence proves success rather than merely ending the run?</li>
+      <li><span>03</span>Which choices truly require model judgment?</li>
+      <li><span>04</span>Which sequence, permissions, checks, and limits stay in code?</li>
+      <li><span>05</span>What context is needed now, and what state must live later?</li>
+      <li><span>06</span>What stops, hands off, or requires approval?</li>
+    </ol>
+  </aside>
+</section>
+
+<section className="checkpoint-section foundations-checkpoint" aria-labelledby="checkpoint-title">
+  <div>
+    <p className="module-kicker">Checkpoint 02</p>
+    <h2 id="checkpoint-title">Trace one decision end to end.</h2>
+    <p>
+      A workable architecture lets another engineer locate the input, owner,
+      evidence, state change, and stop without reading the prompt first.
+    </p>
+  </div>
+  <div className="checkpoint-card" aria-label="Agent Foundations checkpoint">
+    <p><span>Before</span> The runtime validates the input and selects context.</p>
+    <p><span>During</span> The model chooses one bounded move from current evidence.</p>
+    <p><span>After</span> Code validates the result and records the state transition.</p>
+    <p><span>Stop</span> A named rule returns, fails, pauses, or hands off the work.</p>
+    <p className="checkpoint-choice"><span>Proof</span> The receipt explains what happened and what did not.</p>
+  </div>
+</section>
+
+<aside className="source-note foundations-sources" aria-labelledby="source-title">
+  <div>
+    <p className="module-kicker">Primary-source note</p>
+    <h2 id="source-title">The model sits inside an owned runtime.</h2>
+  </div>
+  <div>
+    <p>
+      The control split, loop, context, session, and exit vocabulary is grounded
+      in current primary guidance. The canvas is a vendor-neutral design lens,
+      not a claim that every SDK uses the same names.
+    </p>
+    <ul>
+      <li><a href="https://www.anthropic.com/engineering/building-effective-agents">Anthropic · Building effective agents</a></li>
+      <li><a href="https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf">OpenAI · A practical guide to building agents</a></li>
+      <li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Anthropic · Effective context engineering</a></li>
+      <li><a href="https://openai.github.io/openai-agents-js/guides/sessions/">OpenAI Agents SDK · Sessions</a></li>
+    </ul>
+    <p className="verified-stamp">Verified: 2026-08-04</p>
+  </div>
+</aside>
+
+<section className="next-path foundations-next" aria-labelledby="next-title">
+  <div>
+    <p className="module-kicker">Inspect the architecture</p>
+    <h2 id="next-title">Watch the owners change.</h2>
+  </div>
+  <div>
+    <p>
+      Step through the frozen issue-triage loop and identify where the model
+      chooses, where code enforces, and where the human boundary holds.
+    </p>
+    <a className="module-primary-link" href="/labs/agent-loop/">Open the agent loop <span aria-hidden="true">→</span></a>
+  </div>
+</section>
