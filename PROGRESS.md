@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 2 — Foundations and reference-agent skeleton (in progress)
 
-**Current schedule week:** Week 2 (`floor((2026-08-04 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 2 (`floor((2026-08-05 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 2 Agent Foundations concept module — DONE
+**Last completed unit:** Phase 2 architecture canvas interaction — DONE
 
-**Next unit:** Phase 2 architecture canvas interaction — explicitly revise `/guide/agent-foundations/` with a keyboard-operable structured form that feeds the future blueprint, preserves the complete server-rendered textual canvas, and stores its versioned draft device-locally
+**Next unit:** Phase 2 frozen sample dataset — add the bundled, immutable 40-issue golden snapshot with a TypeScript schema and deterministic fixture validation; leave reference-agent behavior for the following unit
 
 ## State note
 
@@ -1577,3 +1577,154 @@ Sites build contract: client assets and hosting metadata present; /, /guide/agen
 **Single next unit**
 
 Phase 2 architecture canvas interaction — explicitly revise `/guide/agent-foundations/` with a keyboard-operable structured form that feeds the future blueprint, preserves the complete server-rendered textual canvas, and stores its versioned draft device-locally.
+
+### 2026-08-05 — Architecture canvas interaction
+
+**Phase and unit completed**
+
+- Phase 2 — Foundations and reference-agent skeleton
+- Unit: keyboard-operable architecture canvas embedded in `/guide/agent-foundations/`
+- Added three structured drafting stages for outcome, control, and continuity, followed by a complete 11-field blueprint receipt; every stage and value restores from a versioned device-local record
+- Preserved the complete frozen issue-triage reference and blank textual canvas as server-rendered HTML, including a tested no-JavaScript path
+- Previously completed homepage, Start Here module and diagnostic, flagship lab, and Agent Foundations concept sections remain unchanged outside the explicitly revised canvas section
+- Schedule week: Week 2
+
+**Verification output**
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts
+18:09:18 [content] Syncing content
+18:09:18 [content] Synced content
+18:09:18 [types] Generated 167ms
+18:09:18 [build] output: "static"
+18:09:18 [build] mode: "static"
+18:09:18 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:09:18 [build] Collecting build info...
+18:09:18 [build] ✓ Completed in 178ms.
+18:09:18 [build] Building static entrypoints...
+18:09:18 [vite] ✓ built in 131ms
+18:09:18 [vite] ✓ built in 46ms
+18:09:18 [build] Rearranging server assets...
+
+ generating static routes
+18:09:18   ├─ /404.html (+5ms)
+18:09:18   ├─ /guide/agent-foundations/index.html (+9ms)
+18:09:18   ├─ /guide/start-here/index.html (+6ms)
+18:09:18   ├─ /labs/agent-loop/index.html (+56ms)
+18:09:18   ├─ /index.html (+1ms)
+18:09:18 ✓ Completed in 89ms.
+
+18:09:18 [build] ✓ Completed in 279ms.
+18:09:18 [build] 5 page(s) built in 460ms
+18:09:18 [build] Complete!
+Sites worker: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/server/index.js
+Sites assets: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/client
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:09:19 [content] Syncing content
+18:09:19 [content] Synced content
+18:09:19 [types] Generated 174ms
+18:09:19 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (25 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression:
+
+```text
+Running 26 tests using 7 workers
+[1/26] tests/agent-foundations.spec.ts:72:1 › Architecture canvas builds and restores a blueprint draft with the keyboard
+[2/26] tests/agent-foundations.spec.ts:26:1 › Agent Foundations renders the complete textual architecture canvas
+[3/26] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[4/26] tests/agent-foundations.spec.ts:142:1 › Agent Foundations supports its complete keyboard path
+[5/26] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[6/26] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[7/26] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[8/26] tests/agent-foundations.spec.ts:163:1 › Agent Foundations preserves its complete textual canvas without JavaScript
+[9/26] tests/agent-foundations.spec.ts:192:1 › Agent Foundations has no serious, critical, or contrast violations
+[10/26] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[11/26] tests/agent-foundations.spec.ts:220:1 › Agent Foundations keeps its visual contract on mobile and reduced motion
+[12/26] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[13/26] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[14/26] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[15/26] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[16/26] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[17/26] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[18/26] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[19/26] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[20/26] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+[21/26] tests/start-here.spec.ts:17:1 › Start Here renders the complete classification path
+[22/26] tests/start-here.spec.ts:50:1 › Start Here diagnostic classifies and restores a task with the keyboard
+[23/26] tests/start-here.spec.ts:137:1 › Start Here supports a keyboard-only path into the flagship lab
+[24/26] tests/start-here.spec.ts:155:1 › Start Here preserves the complete path without JavaScript
+[25/26] tests/start-here.spec.ts:169:1 › Start Here has no serious, critical, or color-contrast violations
+[26/26] tests/start-here.spec.ts:215:1 › Start Here keeps its visual contract on mobile and reduced motion
+  26 passed (6.5s)
+```
+
+The canvas keyboard test enters every field, selects the approval-gated authority through the native radio control, advances all stages with Enter, verifies the exact stored v1 record, reloads the completed receipt, and returns to an earlier stage without a pointer. The no-JavaScript test asserts all 11 fields in the frozen reference plus the blank reader canvas. Axe scans both the blank form and completed receipt with zero serious, critical, or color-contrast violations.
+
+The generated 1280 px initial and completed-receipt renders and the 360 px reduced-motion render were manually inspected. The builder and receipt preserve the locked editorial-workbench grammar, field hierarchy, visible ownership, and textual reference. The 360 px composition has zero horizontal overflow. Under `prefers-reduced-motion: reduce`, the status marker has `animation-name: none`, transition duration is at most `0.00001s`, and smooth scrolling resolves to `auto`; the builder’s state changes remain immediate and understandable.
+
+Changed-route link crawl:
+
+```text
+→ crawling http://127.0.0.1:4321/guide/agent-foundations/
+[200] http://127.0.0.1:4321/guide/agent-foundations/
+[200] http://127.0.0.1:4321/_astro/BaseLayout.DnrZ9yqI.css
+[200] http://127.0.0.1:4321/_astro/start-here.C39vZmbe.css
+[200] http://127.0.0.1:4321/_astro/agent-foundations.CucJlYBD.css
+[200] http://127.0.0.1:4321/
+[200] http://127.0.0.1:4321/guide/start-here/
+[200] http://127.0.0.1:4321/labs/agent-loop/
+[200] https://openai.github.io/openai-agents-js/guides/sessions/
+[200] https://www.anthropic.com/engineering/building-effective-agents
+[200] https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf
+[200] https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+✓ Successfully scanned 11 links in 1.044 seconds.
+```
+
+Lighthouse against `http://127.0.0.1:4321/guide/agent-foundations/`:
+
+```text
+{
+  "performance": 100,
+  "accessibility": 100,
+  "FCP": "1.2 s",
+  "LCP": "1.5 s",
+  "TBT": "0 ms",
+  "CLS": "0"
+}
+```
+
+Sites build contract:
+
+```text
+$ node --experimental-strip-types scripts/verify-sites-build.ts
+Sites build contract: client assets and hosting metadata present; /, /guide/agent-foundations/, and /labs/agent-loop/ delegate to ASSETS
+```
+
+This interaction adds no external technical claim. The unchanged architecture prose continues to use four primary sources stamped `verified: 2026-08-04` in `docs/sources.md`; all four returned 200 in the changed-route crawl above.
+
+**Decisions made this run**
+
+- Store the architecture canvas as the canonical 11-field blueprint draft plus a working title. Keeping the versioned device-local shape aligned with the textual canvas lets later blueprint export consume the reader’s architecture without translation or account state.
+
+**Remaining uncertainty**
+
+- The canonical source includes the canvas interaction, but the route has not been redeployed to the public Sites URL because deployment is a separate external-hosting mutation and a second unit.
+- The selected host still exposes saved versions but no separate preview URL (`current_preview_url: null`).
+- Blueprint export remains intentionally deferred to its scheduled Phase 6 signature interaction; this unit stores only its future input shape.
+
+**Commit hash and push status**
+
+- Unit commit: `ee2a065` (`feat(guide): add architecture canvas builder`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`a4f62ea..ee2a065`)
+- Canonical remote: `https://github.com/TheSyBuilder/BuildingAgentSystems.git`; remote default branch verified live as `main` immediately before push
+
+**Single next unit**
+
+Phase 2 frozen sample dataset — add the bundled, immutable 40-issue golden snapshot with a TypeScript schema and deterministic fixture validation; leave the first read-only reference-agent capability for the following run.
