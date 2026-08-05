@@ -3,8 +3,10 @@ title: Agent foundations
 description: Design the goal, instructions, context, control, state, and stop conditions around one inspectable agent loop.
 order: 2
 status: published
-updated: 2026-08-04
+updated: 2026-08-05
 ---
+
+import ArchitectureCanvas from "../../components/ArchitectureCanvas";
 
 <section className="module-hero foundations-hero" aria-labelledby="foundations-title">
   <div className="module-hero-copy">
@@ -231,10 +233,13 @@ updated: 2026-08-04
       <h2 id="canvas-title">Make every owner visible.</h2>
     </div>
     <p>
-      This filled canvas is the non-interactive reference for the builder that
-      follows. If a row is unknown, keep the agent read-only or shrink the job.
+      Build a device-local draft, then compare it with the complete frozen
+      reference below. If a row is unknown, keep the agent read-only or shrink
+      the job.
     </p>
   </div>
+
+  <ArchitectureCanvas client:load />
 
   <div className="canvas-sheet">
     <p className="canvas-stamp">Frozen reference · issue triage · read-only</p>
