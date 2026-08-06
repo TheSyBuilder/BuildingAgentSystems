@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 2 — Foundations and reference-agent skeleton (in progress)
 
-**Current schedule week:** Week 2 (`floor((2026-08-05 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 2 (`floor((2026-08-06 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 2 architecture canvas interaction — DONE
+**Last completed unit:** Phase 2 frozen sample dataset — DONE
 
-**Next unit:** Phase 2 frozen sample dataset — add the bundled, immutable 40-issue golden snapshot with a TypeScript schema and deterministic fixture validation; leave reference-agent behavior for the following unit
+**Next unit:** Phase 2 first read-only reference-agent capability — implement a local TypeScript triage run that reads the frozen snapshot, searches and clusters similar open and closed issues, and emits an evidence-backed label and priority proposal for issue 184 with zero writes; leave provider-backed and consequential behavior for later units
 
 ## State note
 
@@ -1728,3 +1728,151 @@ This interaction adds no external technical claim. The unchanged architecture pr
 **Single next unit**
 
 Phase 2 frozen sample dataset — add the bundled, immutable 40-issue golden snapshot with a TypeScript schema and deterministic fixture validation; leave the first read-only reference-agent capability for the following run.
+
+### 2026-08-06 — Frozen sample dataset
+
+**Phase and unit completed**
+
+- Phase 2 — Foundations and reference-agent skeleton
+- Unit: bundled `relaydesk-golden-issues-v1`, an immutable 40-issue TypeScript snapshot with observable issue records, hand-labeled triage expectations, a runtime schema validator, and a canonical SHA-256 fixture fingerprint
+- The set covers all 12 frozen areas, 28 bugs, six feature requests, four documentation reports, two questions, three duplicate relationships, seven required human-review cases, one closed comparison issue, and a 12-comment oversized thread
+- Issues 91, 133, and 184 preserve the parser-crash, Windows-only closed fix, and current macOS exit-status evidence already taught by the shipped simulator
+- Added `pnpm test:fixtures`; no reference-agent behavior, provider adapter, consequential action, rendered page, or previously completed module changed
+- Schedule week: Week 2
+
+**Verification output**
+
+`pnpm test:fixtures`
+
+```text
+$ node --experimental-strip-types scripts/verify-issue-snapshot.ts
+Golden issue snapshot: fixtures=40 comments=16 duplicates=3 human-review=7
+Kinds: {"bug":28,"feature":6,"docs":4,"question":2}
+SHA-256: cd8aa37f8c78deb0508d38414e1183dab7d2ee4a187799df459c04fc68b12f8e
+Fixture validation: schema, rubric, references, chronology, and deep immutability verified
+```
+
+The validator enforces the exact 40-issue manifest, schema and taxonomy membership, unique issue and comment identities, ordered millisecond-precision UTC history, the frozen severity-to-priority rubric, valid earlier duplicate targets in the same cluster, a deeply frozen object graph, the simulator's three trace anchors, fixed distribution counts, and the canonical fingerprint. It also confirms that a runtime mutation throws.
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts
+18:14:06 [content] Syncing content
+18:14:06 [content] Synced content
+18:14:06 [types] Generated 174ms
+18:14:06 [build] output: "static"
+18:14:06 [build] mode: "static"
+18:14:06 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:14:06 [build] Collecting build info...
+18:14:06 [build] ✓ Completed in 186ms.
+18:14:06 [build] Building static entrypoints...
+18:14:06 [vite] ✓ built in 152ms
+18:14:06 [vite] ✓ built in 48ms
+18:14:06 [build] Rearranging server assets...
+
+ generating static routes
+18:14:06   ├─ /404.html (+5ms)
+18:14:06   ├─ /guide/agent-foundations/index.html (+13ms)
+18:14:06   ├─ /guide/start-here/index.html (+4ms)
+18:14:06   ├─ /labs/agent-loop/index.html (+60ms)
+18:14:06   ├─ /index.html (+1ms)
+18:14:06 ✓ Completed in 97ms.
+
+18:14:06 [build] ✓ Completed in 310ms.
+18:14:06 [build] 5 page(s) built in 500ms
+18:14:06 [build] Complete!
+Sites worker: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/server/index.js
+Sites assets: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/client
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:14:07 [content] Syncing content
+18:14:07 [content] Synced content
+18:14:07 [types] Generated 174ms
+18:14:07 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (28 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression:
+
+```text
+Running 26 tests using 7 workers
+[1/26] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[2/26] tests/agent-foundations.spec.ts:72:1 › Architecture canvas builds and restores a blueprint draft with the keyboard
+[3/26] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[4/26] tests/agent-foundations.spec.ts:26:1 › Agent Foundations renders the complete textual architecture canvas
+[5/26] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[6/26] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[7/26] tests/agent-foundations.spec.ts:142:1 › Agent Foundations supports its complete keyboard path
+[8/26] tests/agent-foundations.spec.ts:163:1 › Agent Foundations preserves its complete textual canvas without JavaScript
+[9/26] tests/agent-foundations.spec.ts:192:1 › Agent Foundations has no serious, critical, or contrast violations
+[10/26] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[11/26] tests/agent-foundations.spec.ts:220:1 › Agent Foundations keeps its visual contract on mobile and reduced motion
+[12/26] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[13/26] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[14/26] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[15/26] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[16/26] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[17/26] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[18/26] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[19/26] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[20/26] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+[21/26] tests/start-here.spec.ts:17:1 › Start Here renders the complete classification path
+[22/26] tests/start-here.spec.ts:50:1 › Start Here diagnostic classifies and restores a task with the keyboard
+[23/26] tests/start-here.spec.ts:155:1 › Start Here preserves the complete path without JavaScript
+[24/26] tests/start-here.spec.ts:137:1 › Start Here supports a keyboard-only path into the flagship lab
+[25/26] tests/start-here.spec.ts:169:1 › Start Here has no serious, critical, or color-contrast violations
+[26/26] tests/start-here.spec.ts:215:1 › Start Here keeps its visual contract on mobile and reduced motion
+  26 passed (6.5s)
+```
+
+The full browser suite retains keyboard-only, no-JavaScript, axe, contrast, mobile-overflow, and reduced-motion coverage for every shipped interaction and changed module. This data-only unit changes no rendered page or animation, so there is no changed-page Lighthouse target or new manual motion target.
+
+Sites build contract:
+
+```text
+$ node --experimental-strip-types scripts/verify-sites-build.ts
+Sites build contract: client assets and hosting metadata present; /, /guide/agent-foundations/, and /labs/agent-loop/ delegate to ASSETS
+```
+
+Built-output link crawl:
+
+```text
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/_astro/BaseLayout.DWzCNjnF.css
+[200] dist/labs/agent-loop/
+[200] dist/_astro/agent-loop.SotwMiDj.css
+✓ Successfully scanned 4 links in 0.022 seconds.
+```
+
+Changed implementation source audit:
+
+```text
+Changed implementation external source URLs: 0
+```
+
+The snapshot is explicitly fictional product data and adds no external technical claim. `docs/sources.md` therefore requires no new source or verification stamp.
+
+**Decisions made this run**
+
+- Keep observable issues and hand-labeled triage expectations in one versioned, immutable fixture envelope. A single source of truth keeps future tool reads and evaluations coherent, while trace issues 91, 133, and 184 remain aligned with the shipped simulator.
+
+**Remaining uncertainty**
+
+- The dataset is complete, but no reference-agent behavior consumes it yet; that read-only triage run is the next unit.
+- The canonical source contains the current Phase 2 modules and dataset, but those Phase 2 routes have not been redeployed because deployment is a separate external-hosting unit.
+- The selected host still exposes saved versions but no separate preview URL (`current_preview_url: null`).
+
+**Commit hash and push status**
+
+- Unit commit: `f8301df` (`feat(agent): add golden issue snapshot`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`e758028..f8301df`)
+- Canonical remote: `https://github.com/TheSyBuilder/BuildingAgentSystems.git`; remote default branch verified live as `main` immediately before push
+
+**Single next unit**
+
+Phase 2 first read-only reference-agent capability — implement a local TypeScript triage run that reads the frozen snapshot, searches and clusters similar open and closed issues, and emits an evidence-backed label and priority proposal for issue 184 with zero writes; leave provider-backed and consequential behavior for later units.
