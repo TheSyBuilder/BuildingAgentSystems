@@ -2,11 +2,11 @@
 
 **Current phase:** Phase 2 — Foundations and reference-agent skeleton (in progress)
 
-**Current schedule week:** Week 2 (`floor((2026-08-06 − 2026-07-25) / 7) + 1`)
+**Current schedule week:** Week 2 (`floor((2026-08-07 − 2026-07-25) / 7) + 1`)
 
-**Last completed unit:** Phase 2 frozen sample dataset — DONE
+**Last completed unit:** Phase 2 first read-only reference-agent capability — DONE
 
-**Next unit:** Phase 2 first read-only reference-agent capability — implement a local TypeScript triage run that reads the frozen snapshot, searches and clusters similar open and closed issues, and emits an evidence-backed label and priority proposal for issue 184 with zero writes; leave provider-backed and consequential behavior for later units
+**Next unit:** Phase 2 example, citation, testing, and versioning conventions — add one concise conventions contract for later modules and reference-agent examples, with an executable audit that checks the already-shipped Phase 2 artifacts; do not revise DONE pages or agent behavior
 
 ## State note
 
@@ -1876,3 +1876,178 @@ The snapshot is explicitly fictional product data and adds no external technical
 **Single next unit**
 
 Phase 2 first read-only reference-agent capability — implement a local TypeScript triage run that reads the frozen snapshot, searches and clusters similar open and closed issues, and emits an evidence-backed label and priority proposal for issue 184 with zero writes; leave provider-backed and consequential behavior for later units.
+
+### 2026-08-07 — First read-only reference-agent capability
+
+**Phase and unit completed**
+
+- Phase 2 — Foundations and reference-agent skeleton
+- Unit: local TypeScript triage run for issue 184 over the immutable `relaydesk-golden-issues-v1` snapshot
+- Added frozen read-only `list_issues`, `read_issue`, and `search_similar` operations plus a proposal-only `propose_label` operation; no `apply_label`, provider call, network access, or other write capability exists in this run
+- Scans the other 39 issues, returns three candidates in two evidence clusters, distinguishes the closed Windows-only exit-status report from the current macOS failure, and collapses the two open parser-crash reports behind issue 91
+- Emits an evidence-backed `bug`, `cli`, `p2`, non-duplicate proposal in `awaiting-review` state and exposes it through `pnpm agent:triage`
+- Agent implementation is 442 lines, below the locked 500-line ceiling excluding tests
+- Schedule week: Week 2
+
+**Verification output**
+
+`pnpm test:agent`
+
+```text
+$ node --experimental-strip-types scripts/verify-read-only-triage.ts
+Read-only triage: target=#184 scanned=39 candidates=3 clusters=2
+Similarity: #133=0.81 (closed); #91/#102=0.62 (open)
+Proposal: labels=bug,cli priority=p2 duplicate=none status=awaiting-review
+Safety: tools=list_issues,read_issue,search_similar,propose_label write-operations=0 snapshot-before=cd8aa37f8c78deb0508d38414e1183dab7d2ee4a187799df459c04fc68b12f8e snapshot-after=cd8aa37f8c78deb0508d38414e1183dab7d2ee4a187799df459c04fc68b12f8e
+Reference-agent validation: deterministic evidence chain and zero-write boundary verified
+```
+
+The validator runs the capability twice and requires byte-equivalent structured results; asserts the exact open and closed cluster representatives, scores, and membership; checks the label, priority, duplicate, and evidence receipt; verifies that no golden expected fields leak into the run; confirms the store exposes no `apply_label`; rejects mutation; and proves the canonical snapshot SHA-256 is unchanged before and after.
+
+`pnpm agent:triage`
+
+```text
+$ node --experimental-strip-types scripts/run-read-only-triage.ts
+Read-only triage: issue #184
+Fixture: relaydesk-golden-issues-v1 (cd8aa37f8c78deb0508d38414e1183dab7d2ee4a187799df459c04fc68b12f8e)
+Search: 39 scanned; 3 candidates; 2 clusters
+- 0.81 · representative #133 · #133 closed
+  shared: CLI surface, configuration parse path, incorrect process exit status
+  distinction: Issue #133 is closed; its resolution is comparison evidence, not proof of a duplicate.
+  distinction: Platform differs: target macOS; issue #133 Windows PowerShell.
+- 0.62 · representative #91 · #91 open, #102 open
+  shared: CLI surface, configuration parse path
+  distinction: Outcome differs: target reports a successful exit status; issue #91 reports a parser crash.
+  distinction: Outcome differs: target reports a successful exit status; issue #102 reports a parser crash.
+Proposal: labels=bug,cli priority=p2 duplicate=none
+Rationale: The macOS CLI reports a configuration failure as success, allowing automation to continue. Similar reports confirm the area and failure family, but their platform or outcome differs, so no duplicate is proposed.
+Guard: mode=read-only writes=0 status=awaiting-review approval-before-apply=true
+```
+
+`pnpm test:fixtures`
+
+```text
+$ node --experimental-strip-types scripts/verify-issue-snapshot.ts
+Golden issue snapshot: fixtures=40 comments=16 duplicates=3 human-review=7
+Kinds: {"bug":28,"feature":6,"docs":4,"question":2}
+SHA-256: cd8aa37f8c78deb0508d38414e1183dab7d2ee4a187799df459c04fc68b12f8e
+Fixture validation: schema, rubric, references, chronology, and deep immutability verified
+```
+
+`pnpm build && pnpm typecheck`
+
+```text
+$ ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts
+18:07:42 [content] Syncing content
+18:07:42 [content] Synced content
+18:07:42 [types] Generated 181ms
+18:07:42 [build] output: "static"
+18:07:42 [build] mode: "static"
+18:07:42 [build] directory: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/
+18:07:42 [build] Collecting build info...
+18:07:42 [build] ✓ Completed in 195ms.
+18:07:42 [build] Building static entrypoints...
+18:07:42 [vite] ✓ built in 208ms
+18:07:42 [vite] ✓ built in 53ms
+18:07:42 [build] Rearranging server assets...
+
+ generating static routes
+18:07:42   ├─ /404.html (+5ms)
+18:07:42   ├─ /guide/agent-foundations/index.html (+15ms)
+18:07:42   ├─ /guide/start-here/index.html (+4ms)
+18:07:42   ├─ /labs/agent-loop/index.html (+58ms)
+18:07:42   ├─ /index.html (+1ms)
+18:07:42 ✓ Completed in 97ms.
+
+18:07:42 [build] ✓ Completed in 372ms.
+18:07:42 [build] 5 page(s) built in 572ms
+18:07:42 [build] Complete!
+Sites worker: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/server/index.js
+Sites assets: /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems/dist/client
+$ ASTRO_TELEMETRY_DISABLED=1 astro check
+18:07:43 [content] Syncing content
+18:07:43 [content] Synced content
+18:07:43 [types] Generated 176ms
+18:07:43 [check] Getting diagnostics for Astro files in /Users/Panda/Desktop/Daily/Github Research/BuildingAgentSystems...
+Result (31 files):
+- 0 errors
+- 0 warnings
+- 0 hints
+```
+
+Full Playwright regression:
+
+```text
+Running 26 tests using 7 workers
+[1/26] tests/agent-foundations.spec.ts:72:1 › Architecture canvas builds and restores a blueprint draft with the keyboard
+[2/26] tests/accessibility.spec.ts:27:1 › agent loop has no serious or critical axe violations
+[3/26] tests/agent-foundations.spec.ts:26:1 › Agent Foundations renders the complete textual architecture canvas
+[4/26] tests/agent-foundations.spec.ts:142:1 › Agent Foundations supports its complete keyboard path
+[5/26] tests/accessibility.spec.ts:17:1 › front door passes axe color contrast
+[6/26] tests/accessibility.spec.ts:4:1 › front door has no serious or critical axe violations
+[7/26] tests/accessibility.spec.ts:40:1 › agent loop passes axe color contrast
+[8/26] tests/agent-foundations.spec.ts:163:1 › Agent Foundations preserves its complete textual canvas without JavaScript
+[9/26] tests/agent-foundations.spec.ts:192:1 › Agent Foundations has no serious, critical, or contrast violations
+[10/26] tests/agent-foundations.spec.ts:220:1 › Agent Foundations keeps its visual contract on mobile and reduced motion
+[11/26] tests/agent-loop.spec.ts:3:1 › agent loop completes with keyboard-only controls
+[12/26] tests/agent-loop.spec.ts:47:1 › agent loop has a complete textual equivalent
+[13/26] tests/agent-loop.spec.ts:56:1 › agent loop honors reduced motion
+[14/26] tests/agent-loop.spec.ts:90:1 › agent loop remains usable on a small screen
+[15/26] tests/art-direction.spec.ts:29:1 › front door conforms to the locked art direction
+[16/26] tests/art-direction.spec.ts:121:1 › agent loop conforms to the locked art direction
+[17/26] tests/art-direction.spec.ts:198:1 › both routes collapse decorative motion when reduced motion is requested
+[18/26] tests/smoke.spec.ts:3:1 › front door renders and works from the keyboard
+[19/26] tests/smoke.spec.ts:31:1 › reduced motion removes the status loop
+[20/26] tests/smoke.spec.ts:51:1 › small-screen layout keeps the primary path available
+[21/26] tests/start-here.spec.ts:17:1 › Start Here renders the complete classification path
+[22/26] tests/start-here.spec.ts:50:1 › Start Here diagnostic classifies and restores a task with the keyboard
+[23/26] tests/start-here.spec.ts:137:1 › Start Here supports a keyboard-only path into the flagship lab
+[24/26] tests/start-here.spec.ts:155:1 › Start Here preserves the complete path without JavaScript
+[25/26] tests/start-here.spec.ts:169:1 › Start Here has no serious, critical, or color-contrast violations
+[26/26] tests/start-here.spec.ts:215:1 › Start Here keeps its visual contract on mobile and reduced motion
+  26 passed (6.9s)
+```
+
+The full suite retains keyboard-only, no-JavaScript, axe, color-contrast, mobile-overflow, and reduced-motion coverage for every shipped interaction. This code-only unit changes no rendered page or animation, so there is no changed-page Lighthouse target or new manual motion target.
+
+Sites build contract and built-output link crawl:
+
+```text
+$ node --experimental-strip-types scripts/verify-sites-build.ts
+Sites build contract: client assets and hosting metadata present; /, /guide/agent-foundations/, and /labs/agent-loop/ delegate to ASSETS
+$ linkinator dist --recurse
+→ crawling dist
+[200] dist
+[200] dist/labs/agent-loop/
+[200] dist/_astro/BaseLayout.DWzCNjnF.css
+[200] dist/_astro/agent-loop.SotwMiDj.css
+✓ Successfully scanned 4 links in 0.025 seconds.
+```
+
+Changed implementation source audit:
+
+```text
+Changed implementation external source URLs: 0
+```
+
+The capability implements project-local deterministic behavior over fictional bundled data and adds no external technical claim. `docs/sources.md` therefore requires no new source or verification stamp.
+
+**Decisions made this run**
+
+- Derive similarity clusters only from observable issue evidence and collapse equivalent reports before proposing labels. Golden annotations remain evaluation-only, while the cluster representatives preserve the shipped simulator's concise evidence chain.
+
+**Remaining uncertainty**
+
+- This first capability is intentionally local and deterministic. Provider-backed decisions, the consequential `apply_label` path, and its approval gate remain later scheduled units.
+- The canonical source contains the current Phase 2 routes and reference-agent capability, but the Phase 2 site has not been redeployed because deployment is a separate external-hosting unit.
+- The selected host still exposes saved versions but no separate preview URL (`current_preview_url: null`).
+
+**Commit hash and push status**
+
+- Unit commit: `8beedf4` (`feat(agent): add read-only triage run`)
+- Push: successful ordinary non-force push to the verified canonical `origin/main` (`2438daa..8beedf4`)
+- Canonical remote: `https://github.com/TheSyBuilder/BuildingAgentSystems.git`; remote default branch verified live as `main` immediately before push
+
+**Single next unit**
+
+Phase 2 example, citation, testing, and versioning conventions — add one concise conventions contract for later modules and reference-agent examples, with an executable audit that checks the already-shipped Phase 2 artifacts; do not revise DONE pages or agent behavior.
