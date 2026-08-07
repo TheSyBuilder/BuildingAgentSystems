@@ -7,11 +7,13 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build && node --experimental-strip-types scripts/prepare-sites-build.ts",
     "capture:demo": "pnpm build && node --experimental-strip-types scripts/capture-agent-loop-demo.ts",
+    "agent:triage": "node --experimental-strip-types scripts/run-read-only-triage.ts",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "typecheck": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "test:smoke": "playwright test tests/smoke.spec.ts",
     "test:a11y": "playwright test tests/accessibility.spec.ts",
     "test:fixtures": "node --experimental-strip-types scripts/verify-issue-snapshot.ts",
+    "test:agent": "node --experimental-strip-types scripts/verify-read-only-triage.ts",
     "test:hosting": "node --experimental-strip-types scripts/verify-sites-build.ts",
     "test:live": "playwright test --config playwright.live.config.ts",
     "test:links": "linkinator dist --recurse"
